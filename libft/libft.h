@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 16:52:13 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/17 18:04:38 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/17 23:06:53 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 
 char			*ft_itoa_base(unsigned long long nbr, char *base);
 int				get_next_line(int fd, char **line);
-void			ft_free_map(char **map);
+void			ft_free_map(void *ptr);
 
 #endif

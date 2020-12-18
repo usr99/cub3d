@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/17 16:55:00 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/18 12:51:25 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		main(int ac, char **av)
 	int			fd;
 
 	if (ac == 1)
-		show_error(NULL, TOO_FEW_ARG);
+		show_error(NULL, NULL, "Too few arguments");
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 	{
 		perror("Error\nInfo ");
@@ -40,7 +40,6 @@ int		main(int ac, char **av)
 	}
 	init_struct_specs(&specs);
 	parse_map(fd, &specs);
-	//print_map(specs);
 	return (0);
 }
 
@@ -61,51 +60,35 @@ void	init_struct_specs(t_map_specs *specs)
 void	is_specs_completed(t_map_specs *specs, char *line)
 {
 	if (specs->width == 0)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 	if (specs->height == 0)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 	if (specs->no_texture == NULL)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 	if (specs->so_texture == NULL)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 	if (specs->we_texture == NULL)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 	if (specs->ea_texture == NULL)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 	if (specs->s_texture == NULL)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 	if (specs->f_color == 0)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 	if (specs->c_color == 0)
-		show_error(line, MISSING_VALUE);
+		show_error(line, &free, "Missing element in .cub file");
 }
 
-void	show_error(void *ptr, t_error id_error)
+void	show_error(void *ptr, void (*del)(void *), char *message)
 {
-	if (id_error == TOO_FEW_ARG)
-		ft_putstr_fd("Error\nInfo : Too few arguments\n", 2);
-	else if (id_error == READ_FILE)
-		ft_putstr_fd("Error\nInfo : Can't read file\n", 2);
-	else if (id_error == INVALID_FILE)
-		ft_putstr_fd("Error\nInfo : Invalid .cub file\n", 2);
-	else if (id_error == MISSING_MAP)
-		ft_putstr_fd("Error\nInfo : Map description missing/incorrect\n", 2);
-	else if (id_error == MISSING_VALUE)
-		ft_putstr_fd("Error\nInfo : Missing element in .cub file\n", 2);
-	else if (id_error == BAD_RGB_VALUE)
-		ft_putstr_fd("Error\nInfo : Bad value for color\n", 2);
-	else if (id_error == ALREADY_RES)
-		ft_putstr_fd("Error\nInfo : Resolution is set twice\n", 2);
-	else if (id_error == BAD_RES_VALUE)
-		ft_putstr_fd("Error\nInfo : Bad value for resolution\n", 2);
-	else if (id_error == BAD_MAP)
-		ft_putstr_fd("Error\nInfo : Bad character in map description\n", 2);
-	else if (id_error == PLAYER_TWICE)
-		ft_putstr_fd("Error\nInfo : Player position is set twice\n", 2);
-	else if (id_error == MAP_NOT_CLOSED)
-		ft_putstr_fd("Error\nInfo : Map not closed\n", 2);
+	if (message)
+	{
+		ft_putstr_fd("Error\nInfo : ", 2);
+		ft_putstr_fd(message, 2);
+		ft_putchar_fd('\n', 2);
+	}
 	if (ptr)
-		free(ptr);
+		(*del)(ptr);
 	exit(EXIT_FAILURE);
 }
 

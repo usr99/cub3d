@@ -7,10 +7,10 @@ OBJ		= ${addprefix ${OBJ_DIR}, ${SRC:.c=.o}}
 CC		= gcc
 CFLAGS	= -Wall -Wextra #-Werror
 
-${OBJ_DIR}%.o:	srcs/%.c ${OBJ_DIR}
+${OBJ_DIR}%.o:	srcs/%.c
 			${CC} ${CFLAGS} -c $< -o $@
 
-${NAME}:	${OBJ} ${LIBFT} ${MLX}
+${NAME}:	${OBJ_DIR} ${OBJ} ${LIBFT} ${MLX}
 			${CC} ${CFLAGS} -o $@ ${OBJ} ${LIBFT} ${MLX}
 
 ${OBJ_DIR}:
