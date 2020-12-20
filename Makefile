@@ -1,14 +1,14 @@
 NAME	= cub3d
 LIBFT	= libft/libft.a
 MLX		= minilibx/libmlx.a
-SRC		= main.c parse_cub.c read_map.c window.c
+SRC		= main.c parse_cub.c read_map.c window.c window_utils.c raycasting.c
 OBJ_DIR	= objs/
 OBJ		= ${addprefix ${OBJ_DIR}, ${SRC:.c=.o}}
 CC		= gcc
 CFLAGS	= -Wall -Wextra #-Werror
 
 ${OBJ_DIR}%.o:	srcs/%.c
-			${CC} -g ${CFLAGS} -c $< -o $@
+			${CC} ${CFLAGS} -I includes/ -c $< -o $@
 
 ${NAME}:	${OBJ_DIR} ${OBJ} ${LIBFT} ${MLX}
 			${CC} ${CFLAGS} -o $@ ${OBJ} ${LIBFT} ${MLX} -lXext -lX11 -lm

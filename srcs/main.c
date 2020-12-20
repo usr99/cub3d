@@ -6,25 +6,13 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/18 22:29:43 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/20 17:53:15 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-void	print_map(t_map_specs specs)
-{
-	printf("= SPECS ===================\n");
-	printf("width = %d\n", specs.width);
-	printf("height = %d\n", specs.height);
-	printf("no = %s\n", specs.no_texture);
-	printf("so = %s\n", specs.so_texture);
-	printf("we = %s\n", specs.we_texture);
-	printf("ea = %s\n", specs.ea_texture);
-	printf("s = %s\n", specs.s_texture);
-	printf("f_color = %d,%d,%d\n", (specs.f_color >> 16) & 0xFF, (specs.f_color >> 8) & 0xFF, specs.f_color & 0xFF);
-	printf("c_color = %d,%d,%d\n", (specs.c_color >> 16) & 0xFF, (specs.c_color >> 8) & 0xFF, specs.c_color & 0xFF);
-}
+#include "../includes/parsing.h"
+#include "../includes/window.h"
 
 int		main(int ac, char **av)
 {
