@@ -6,11 +6,11 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/17 23:21:32 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/18 17:35:01 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../includes/parsing.h"
 
 void	parse_map(int fd, t_map_specs *specs)
 {

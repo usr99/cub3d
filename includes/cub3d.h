@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:05:44 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/18 12:51:24 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/20 16:40:51 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <math.h>
 # include "../libft/libft.h"
 # include "../minilibx/mlx.h"
 
@@ -41,17 +42,5 @@ void			init_struct_specs(t_map_specs *specs);
 void	        is_specs_completed(t_map_specs *specs, char *line);
 void        	show_error(void *ptr, void (*del)(void *), char *message);
 int		        check_comma(char *line, int *i);
-
-void			parse_map(int fd, t_map_specs *specs);
-int         	get_texture(char *line, t_map_specs *m_specs);
-int         	get_color(char *line, t_map_specs *m_specs);
-int         	set_spec(char *line, t_map_specs *m_specs, void *value);
-int         	get_res(char *line, t_map_specs *m_specs);
-
-int         	is_map_description(char *line);
-char        	**get_map(char *line, int fd);
-void	        check_map(char **map);
-void	        check_map_closed(char **map, int x, int y);
-void	        pathfinding(char **map, int i, int j);
 
 #endif

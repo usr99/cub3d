@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/18 12:51:25 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/18 22:29:43 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int		main(int ac, char **av)
 	}
 	init_struct_specs(&specs);
 	parse_map(fd, &specs);
+	close(fd);
+	create_window(specs);
 	return (0);
 }
 

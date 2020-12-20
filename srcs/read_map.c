@@ -6,11 +6,11 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 14:11:02 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/18 12:51:20 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/18 17:35:12 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../includes/parsing.h"
 
 void	print_(char **map)
 {
@@ -145,7 +145,6 @@ void	check_map_closed(char **map, int x, int y)
 		}
 	}
 	pathfinding(cpy_map, y, x);
-	print_(cpy_map);
 	ft_free_map(cpy_map);
 }
 
