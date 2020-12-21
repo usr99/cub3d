@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:46:35 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/20 19:28:57 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:20:35 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	raycast(t_player player, t_map_specs specs, int x, int *color)
 	if (rayDirX < 0)
 	{
 		stepX = -1;
-		sideDistX = (mapX - player.posX + 1.0) * deltaDistX;
+		sideDistX = (player.posX - mapX) * deltaDistX;
 	}
 	else
 	{
@@ -58,7 +58,7 @@ int	raycast(t_player player, t_map_specs specs, int x, int *color)
 	if (rayDirY < 0)
 	{
 		stepY = -1;
-		sideDistY = (mapY - player.posY + 1.0) * deltaDistY;
+		sideDistY = (player.posY - mapY) * deltaDistY;
 	}
 	else
 	{

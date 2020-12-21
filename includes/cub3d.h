@@ -6,12 +6,14 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:05:44 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/20 17:48:38 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:20:40 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# define _USE_MATH_DEFINES_
 
 # include <stdlib.h>
 # include <stdio.h>

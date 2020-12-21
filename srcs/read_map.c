@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 14:11:02 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/18 17:35:12 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:23:59 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,13 @@ void	print_(char **map)
 int		is_map_description(char *line)
 {
 	int i;
-	int	is_wall;
 
 	i = 0;
-	is_wall = 0;
 	if (!line || ft_strlen(line) == 0)
 		return (0);
-	while (line[i] == '1' || line[i] == ' ')
-	{
-		if (line[i] == '1')
-			is_wall = 1;
+	while (ft_strchr(" 012", line[i]))
 		i++;
-	}
-	if (line[i] != '\0' || !is_wall)
+	if (line[i] != '\0')
 		return (0);
 	return (1);
 }

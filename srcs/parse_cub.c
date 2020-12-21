@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/20 17:53:24 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:23:41 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parse_map(int fd, t_map_specs *specs)
 	while ((ret = get_next_line(fd, &line)))
 	{
 		if (ret == -1)
-			show_error(NULL, NULL, "Too few arguments");
+			show_error(NULL, NULL, "Can't read file");
 		ret = -1;
 		if (ft_strchr("NSWE", line[0]))
 			ret = get_texture(line, specs);
@@ -31,7 +31,7 @@ void	parse_map(int fd, t_map_specs *specs)
 		else if (is_map_description(line))
 			break ;
 		if (ret == -1 && ft_strlen(line) > 0)
-			show_error(line, &free, "Can't read file");
+			show_error(line, &free, "Invalid .cub file");
 		free(line);
 	}
 	if (ret == 0)
