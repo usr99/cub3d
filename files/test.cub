@@ -1,12 +1,12 @@
 R    640         440
 
-NO          ./files/north.xpm
+NO          files/eagle.xpm
 
 
-SO ./files/south.xpm
-WE files/west.xpm
+SO ./files/redbrick.xpm
+WE files/mossy.xpm
 
-EA   ./files/east.xpm
+EA   ./files/greystone.xpm
 
 S       files/megaman.xpm
 F 98   ,71 ,4

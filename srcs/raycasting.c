@@ -6,14 +6,14 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:46:35 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/22 00:20:35 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/22 01:56:12 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/window.h"
 #include "../includes/raycasting.h"
 
-int	raycast(t_player player, t_map_specs specs, int x, int *color)
+t_wall	raycast(t_player player, t_map_specs specs, int x)
 {
 	double	cameraX;
 	double	rayDirX;
@@ -29,6 +29,7 @@ int	raycast(t_player player, t_map_specs specs, int x, int *color)
 	int		stepX;
 	int		stepY;
 	double	distWall;
+	t_wall	wall;
 
 	// get ray vector
 	cameraX = 2 * x / (double)specs.width - 1;
@@ -95,9 +96,23 @@ int	raycast(t_player player, t_map_specs specs, int x, int *color)
 		distWall = (mapY - player.posY + (1 - stepY) / 2) / rayDirY;
 
 	if (side == 0)
-		*color = 0x80A1C1;
+	{
+		if (rayDirX < 0)
+			wall.side = 3;
+		else
+			wall.side = 2;
+		wall.x = player.posY + distWall * rayDirY;
+	}
 	else
-		*color = 0x436689;
+	{
+		if (rayDirY < 0)
+			wall.side = 1;
+		else
+			wall.side = 0;
+		wall.x = player.posX + distWall * rayDirX;
+	}
+	wall.x -= floor(wall.x);
 
-	return (specs.height / distWall);
+	wall.height = specs.height / distWall;
+	return (wall);
 }

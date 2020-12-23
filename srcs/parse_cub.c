@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/22 00:23:41 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:29:07 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,16 @@ int		get_color(char *line, t_map_specs *m_specs)
 
 int		set_spec(char *line, t_map_specs *m_specs, void *value)
 {
-	if (ft_strnstr(line, "NO ", 3) && !m_specs->no_texture)
-		m_specs->no_texture = (char *)value;
-	else if (ft_strnstr(line, "SO ", 3) && !m_specs->so_texture)
-		m_specs->so_texture = (char *)value;
-	else if (ft_strnstr(line, "WE ", 3) && !m_specs->we_texture)
-		m_specs->we_texture = (char *)value;
-	else if (ft_strnstr(line, "EA ", 3) && !m_specs->ea_texture)
-		m_specs->ea_texture = (char *)value;
-	else if (ft_strnstr(line, "S ", 2) && !m_specs->s_texture)
-		m_specs->s_texture = (char *)value;
+	if (ft_strnstr(line, "NO ", 3) && !m_specs->texture[0])
+		m_specs->texture[0] = (char *)value;
+	else if (ft_strnstr(line, "SO ", 3) && !m_specs->texture[1])
+		m_specs->texture[1] = (char *)value;
+	else if (ft_strnstr(line, "WE ", 3) && !m_specs->texture[2])
+		m_specs->texture[2] = (char *)value;
+	else if (ft_strnstr(line, "EA ", 3) && !m_specs->texture[3])
+		m_specs->texture[3] = (char *)value;
+	else if (ft_strnstr(line, "S ", 2) && !m_specs->texture[4])
+		m_specs->texture[4] = (char *)value;
 	else if (ft_strnstr(line, "F ", 2) && !m_specs->f_color)
 		m_specs->f_color = *((int*)value);
 	else if (ft_strnstr(line, "C ", 2) && !m_specs->c_color)

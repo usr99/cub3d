@@ -8,7 +8,7 @@ CC		= gcc
 CFLAGS	= -Wall -Wextra #-Werror
 
 ${OBJ_DIR}%.o:	srcs/%.c
-			${CC} ${CFLAGS} -I includes/ -c $< -o $@
+			${CC} -g ${CFLAGS} -I includes/ -c $< -o $@
 
 ${NAME}:	${OBJ_DIR} ${OBJ} ${LIBFT} ${MLX}
 			${CC} ${CFLAGS} -o $@ ${OBJ} ${LIBFT} ${MLX} -lXext -lX11 -lm

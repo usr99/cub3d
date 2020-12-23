@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/20 17:53:15 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/22 00:32:39 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void	init_struct_specs(t_map_specs *specs)
 {
 	specs->width = 0;
 	specs->height = 0;
-	specs->no_texture = NULL;
-	specs->so_texture = NULL;
-	specs->we_texture = NULL;
-	specs->ea_texture = NULL;
-	specs->s_texture = NULL;
+	specs->texture[0] = NULL;
+	specs->texture[1] = NULL;
+	specs->texture[2] = NULL;
+	specs->texture[3] = NULL;
+	specs->texture[4] = NULL;
 	specs->f_color = 0;
 	specs->c_color = 0;
 	specs->map = NULL;
@@ -53,15 +53,15 @@ void	is_specs_completed(t_map_specs *specs, char *line)
 		show_error(line, &free, "Missing element in .cub file");
 	if (specs->height == 0)
 		show_error(line, &free, "Missing element in .cub file");
-	if (specs->no_texture == NULL)
+	if (specs->texture[0] == NULL)
 		show_error(line, &free, "Missing element in .cub file");
-	if (specs->so_texture == NULL)
+	if (specs->texture[1] == NULL)
 		show_error(line, &free, "Missing element in .cub file");
-	if (specs->we_texture == NULL)
+	if (specs->texture[2] == NULL)
 		show_error(line, &free, "Missing element in .cub file");
-	if (specs->ea_texture == NULL)
+	if (specs->texture[3] == NULL)
 		show_error(line, &free, "Missing element in .cub file");
-	if (specs->s_texture == NULL)
+	if (specs->texture[4] == NULL)
 		show_error(line, &free, "Missing element in .cub file");
 	if (specs->f_color == 0)
 		show_error(line, &free, "Missing element in .cub file");
