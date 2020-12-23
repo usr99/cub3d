@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 19:11:29 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/23 19:32:27 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/23 21:44:51 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ int	handle_event(int keycode, t_window *window)
 		window->player.planeX = window->player.planeX * cos(M_PI / 16) - window->player.planeY * sin(M_PI / 16);
 		window->player.planeY = tmp_planeX * sin(M_PI / 16) + window->player.planeY * cos(M_PI / 16);
 	}
-	display_window(*window);
+	else if (keycode == XK_Escape)
+		exit(EXIT_SUCCESS);
+	
+	display_window(window);
 	return (0);
 }
 

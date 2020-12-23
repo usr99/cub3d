@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/23 20:54:56 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/23 22:40:39 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,26 @@ void	create_window(t_map_specs specs)
 	win.win = mlx_new_window(win.mlx, specs.width, specs.height, "CUB3D");
 	if (win.win == NULL)
 		exit(EXIT_FAILURE);
-		
+	if (!(win.world.img = mlx_new_image(win.mlx, specs.width, specs.height)))
+		exit(EXIT_FAILURE);
+
+	win.world.addr = (unsigned int *)mlx_get_data_addr(win.world.img,
+		&win.world.bpp, &win.world.size_line, &win.world.endian);
 	win.specs = specs;
-	create_world_img(&win, specs);
 	create_texture(&win, specs);
 	get_player_info(&win, specs);
 
-	display_window(win);
+	display_window(&win);
+	printf("%d\n", specs.save);
+	if (specs.save)
+		save_bmp(win.world.addr);
 	mlx_do_key_autorepeaton(win.mlx);
+
+	//mlx_hook(win.win, 33, 0, &close_cub3d, &win);
+	
+	mlx_expose_hook(win.win, &display_window, &win);
 	mlx_hook(win.win, 2, 1L << 0, &handle_event, &win);
 	mlx_loop(win.mlx);
-}
-
-void	create_world_img(t_window *window, t_map_specs specs)
-{
-	t_img	world;
-	int		i;
-	int		nb_pixels;
-
-
-	world.img = mlx_new_image(window->mlx, specs.width, specs.height);
-	if (world.img == NULL)
-		exit(EXIT_FAILURE);
-	nb_pixels = specs.width * specs.height;
-	world.addr = (unsigned int *)mlx_get_data_addr(world.img, &world.bpp,
-		&world.size_line, &world.endian);
-	i = -1;
-	while (i++ < nb_pixels / 2)
-		world.addr[i] = specs.c_color;
-	while (i++ < nb_pixels)
-		world.addr[i] = specs.f_color;
-	window->world = world;
 }
 
 void	create_texture(t_window *window, t_map_specs specs)
@@ -73,19 +62,28 @@ void	create_texture(t_window *window, t_map_specs specs)
 	}
 }
 
-void	display_window(t_window window)
+int		display_window(t_window *window)
 {
 	t_wall	wall;
 	int		x;
+	int		i;
+	int		nb_pixels;
 
+	i = -1;
+	nb_pixels = window->specs.width * window->specs.height;
+	while (i++ < nb_pixels / 2)
+		window->world.addr[i] = window->specs.c_color;
+	while (i++ < nb_pixels)
+		window->world.addr[i] = window->specs.f_color;
 	x = 0;
-	mlx_put_image_to_window(window.mlx, window.win, window.world.img, 0, 0);
-	while (x < window.specs.width)
+	while (x < window->specs.width)
 	{
-		wall = raycast(window.player, window.specs, x);
-		draw_line(window, x, wall);
+		wall = raycast(window->player, window->specs, x);
+		draw_line(*window, x, wall);
 		x++;
 	}
+	mlx_put_image_to_window(window->mlx, window->win, window->world.img, 0, 0);
+	return (0);
 }
 
 void	draw_line(t_window window, int x, t_wall wall)
@@ -108,11 +106,16 @@ void	draw_line(t_window window, int x, t_wall wall)
 	while (i < wall.height)
 	{
 		if (y >= 0 && y < window.specs.height)
-			mlx_pixel_put(window.mlx, window.win, x, y, color);
+			window.world.addr[x + y * (window.world.size_line / 4)] = color;
 		line += step;
 		if (line < SIZE_TEX)
 			color = window.tex[wall.side].addr[tex_x + (int)line * (window.tex[wall.side].size_line / 4)];
 		y++;
 		i++;
 	}
+}
+
+void	save_bmp(unsigned int *addr)
+{
+	printf("salut\n");
 }

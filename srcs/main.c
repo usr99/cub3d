@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/22 00:32:39 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/23 22:42:51 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int		main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 	init_struct_specs(&specs);
+	if (ac > 2 && ft_strlen(av[2]) == 6 && !ft_strncmp(av[2], "--save", 6))
+		specs.save = 1;
 	parse_map(fd, &specs);
 	close(fd);
 	create_window(specs);
@@ -45,6 +47,7 @@ void	init_struct_specs(t_map_specs *specs)
 	specs->f_color = 0;
 	specs->c_color = 0;
 	specs->map = NULL;
+	specs->save = 0;
 }
 
 void	is_specs_completed(t_map_specs *specs, char *line)
