@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/23 20:02:26 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/23 20:54:56 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	create_window(t_map_specs specs)
 		exit(EXIT_FAILURE);
 		
 	win.specs = specs;
-	create_floor_and_sky(&win, specs);
+	create_world_img(&win, specs);
 	create_texture(&win, specs);
 	get_player_info(&win, specs);
 
@@ -33,30 +33,25 @@ void	create_window(t_map_specs specs)
 	mlx_loop(win.mlx);
 }
 
-void	create_floor_and_sky(t_window *window, t_map_specs specs)
+void	create_world_img(t_window *window, t_map_specs specs)
 {
-	t_img	sky;
-	t_img	floor;
+	t_img	world;
 	int		i;
-	int		nb_pixels_img;
+	int		nb_pixels;
 
-	sky.img = mlx_new_image(window->mlx, specs.width, specs.height / 2);
-	floor.img = mlx_new_image(window->mlx, specs.width, specs.height / 2);
-	if (sky.img == NULL || floor.img == NULL)
+
+	world.img = mlx_new_image(window->mlx, specs.width, specs.height);
+	if (world.img == NULL)
 		exit(EXIT_FAILURE);
-	nb_pixels_img = specs.width * (specs.height / 2);
-	sky.addr = (unsigned int *)mlx_get_data_addr(sky.img, &sky.bpp,
-		&sky.size_line, &sky.endian);
-	floor.addr = (unsigned int *)mlx_get_data_addr(floor.img, &floor.bpp,
-		&floor.size_line, &floor.endian);
+	nb_pixels = specs.width * specs.height;
+	world.addr = (unsigned int *)mlx_get_data_addr(world.img, &world.bpp,
+		&world.size_line, &world.endian);
 	i = -1;
-	while (++i < nb_pixels_img)
-		sky.addr[i] = specs.c_color;
-	i = -1;
-	while (++i < nb_pixels_img)
-		floor.addr[i] = specs.f_color;
-	window->sky = sky;
-	window->floor = floor;
+	while (i++ < nb_pixels / 2)
+		world.addr[i] = specs.c_color;
+	while (i++ < nb_pixels)
+		world.addr[i] = specs.f_color;
+	window->world = world;
 }
 
 void	create_texture(t_window *window, t_map_specs specs)
@@ -76,18 +71,6 @@ void	create_texture(t_window *window, t_map_specs specs)
 		window->tex[i] = tx;
 		i++;
 	}
-	tx.img = mlx_new_image(window->mlx, specs.width, specs.height);
-	if (tx.img == NULL)
-		exit(EXIT_FAILURE);
-	tx.addr = (unsigned int *)mlx_get_data_addr(tx.img, &tx.bpp,
-		&tx.width, &tx.height);
-	i = specs.width * specs.height;
-	while (i--)
-	{
-		tx.addr[i] = 0;
-		tx.addr[i] = tx.addr[i] | (255 << 24);
-	}	
-	window->walls = tx;
 }
 
 void	display_window(t_window window)
@@ -96,10 +79,7 @@ void	display_window(t_window window)
 	int		x;
 
 	x = 0;
-	mlx_put_image_to_window(window.mlx, window.win, window.floor.img, 0,
-		window.specs.height / 2);
-	mlx_put_image_to_window(window.mlx, window.win, window.sky.img, 0, 0);
-	//mlx_put_image_to_window(window.mlx, window.win, window.walls.img, 0, 0);
+	mlx_put_image_to_window(window.mlx, window.win, window.world.img, 0, 0);
 	while (x < window.specs.width)
 	{
 		wall = raycast(window.player, window.specs, x);
