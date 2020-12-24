@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/23 22:40:39 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/24 13:46:18 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ void	create_window(t_map_specs specs)
 	get_player_info(&win, specs);
 
 	display_window(&win);
-	printf("%d\n", specs.save);
 	if (specs.save)
-		save_bmp(win.world.addr);
+		save_bmp(win.world, specs);
 	mlx_do_key_autorepeaton(win.mlx);
 
 	//mlx_hook(win.win, 33, 0, &close_cub3d, &win);
@@ -115,7 +114,58 @@ void	draw_line(t_window window, int x, t_wall wall)
 	}
 }
 
-void	save_bmp(unsigned int *addr)
+void	save_bmp(t_img world, t_map_specs specs)
 {
-	printf("salut\n");
+	int	fd;
+	int	file_size;
+	int	image_size;
+	int	pixel_per_meter;
+	int	i;
+	int	line;
+	int	pixel;
+
+	fd = open("./save.bmp", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+	if (fd == -1)
+		exit(EXIT_FAILURE);
+	file_size = 54 + specs.width * specs.height * 3;
+	file_size += file_size % 4;
+	// file header
+	write(fd, "BM", 2);
+	write(fd, &file_size, 4);
+	write(fd, "\0\0\0\0", 4);
+	ft_putchar_fd(54, fd);
+	write(fd, "\0\0\0", 3);
+	// image header
+	ft_putchar_fd(40, fd);
+	write(fd, "\0\0\0", 3);
+	write(fd, &specs.width, 4);
+	write(fd, &specs.height, 4);
+	ft_putchar_fd(1, fd);
+	ft_putchar_fd(0, fd);
+	ft_putchar_fd(24, fd);
+	write(fd, "\0\0\0\0\0", 5);
+	image_size = specs.width * specs.height * 3;
+	write(fd, &image_size, 4);
+	pixel_per_meter = 3779;
+	write(fd, &pixel_per_meter, 4);
+	write(fd, &pixel_per_meter, 4);
+	write(fd, "\0\0\0\0\0\0\0\0", 8);
+	// image data
+	i = 0;
+	line = specs.height - 2;
+	while (line >= 0)
+	{
+		pixel = i + line * world.size_line / 4;
+		ft_putchar_fd(world.addr[pixel], fd);
+		ft_putchar_fd(world.addr[pixel] >> 8, fd);
+		ft_putchar_fd(world.addr[pixel] >> 16, fd);
+		i++;
+		if (i == specs.width)
+		{
+			i = 0;
+			line--;
+		}
+	}
+	write(fd, "\0\0\0", (image_size + 54) % 4);
+	close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 17:42:06 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/23 22:35:38 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/24 13:27:12 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void			create_window(t_map_specs specs);
 void			create_texture(t_window *window, t_map_specs specs);
 int				display_window(t_window *window);
 void			draw_line(t_window window, int x, t_wall wall);
-void			save_bmp(unsigned int *addr);
+void			save_bmp(t_img world, t_map_specs specs);
 
 void			get_player_info(t_window *window, t_map_specs specs);
 void			get_player_dir(t_player *player, char c);
