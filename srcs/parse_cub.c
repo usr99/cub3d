@@ -6,11 +6,12 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/22 00:29:07 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/26 23:37:38 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
+#include "../includes/sprite.h"
 
 void	parse_map(int fd, t_map_specs *specs)
 {
@@ -38,6 +39,7 @@ void	parse_map(int fd, t_map_specs *specs)
 		show_error(NULL, NULL, "Map description missing/incorrect");
 	is_specs_completed(specs, line);
 	specs->map = get_map(line, fd);
+	specs->sprite = get_sprite_coordinates(specs->map);
 }
 
 int		get_texture(char *line, t_map_specs *m_specs)
@@ -54,7 +56,6 @@ int		get_texture(char *line, t_map_specs *m_specs)
 	if (!texture)
 	{
 		free(line);
-		free(texture);
 		exit(EXIT_FAILURE);
 	}
 	return (set_spec(line, m_specs, texture));

@@ -6,43 +6,11 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 14:11:02 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/22 00:23:59 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/25 16:21:18 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/parsing.h"
-
-void	print_(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (map[i])
-	{
-		while (map[i][j])
-		{
-			if (map[i][j] == '0')
-				printf("\033[34;44m" "%c", map[i][j]);
-			else if (map[i][j] == 'X')
-				printf("\033[33;43m" "%c", map[i][j]);
-			else if (map[i][j] == '1')
-				printf("\033[31;41m" "%c", map[i][j]);
-			else if (map[i][j] == '2')
-				printf("\033[32;42m" "%c", map[i][j]);
-			else if (ft_strchr("NSWE", map[i][j]))
-				printf("\033[30;44m" "%c", map[i][j]);
-			else
-				printf("%c", map[i][j]);
-			printf("\033[0m");
-			j++;
-		}
-		printf("\n");
-		j = 0;
-		i++;
-	}
-}
 
 int		is_map_description(char *line)
 {

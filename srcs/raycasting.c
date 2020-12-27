@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:46:35 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/22 01:56:12 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/26 18:44:45 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,104 +15,114 @@
 
 t_wall	raycast(t_player player, t_map_specs specs, int x)
 {
-	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
-	int		mapX;
-	int		mapY;
-	double	deltaDistX;
-	double	deltaDistY;
-	double	sideDistX;
-	double	sideDistY;
-	int		hit;
-	int		side;
-	int		stepX;
-	int		stepY;
-	double	distWall;
+	double	camera;
+	t_ray	ray;
 	t_wall	wall;
 
-	// get ray vector
-	cameraX = 2 * x / (double)specs.width - 1;
-	rayDirX = player.dirX + player.planeX * cameraX;
-	rayDirY = player.dirY + player.planeY * cameraX;
-	
-	// set ray at player position
-	mapX = (int)player.posX;
-	mapY = (int)player.posY;
+	camera = 2 * x / (double)specs.width - 1;
+	ray.dir.x = player.x_dir + player.x_plane * camera;
+	ray.dir.y = player.y_dir + player.y_plane * camera;
+	ray.map.x = (int)player.x_pos;
+	ray.map.y = (int)player.y_pos;
+	get_ray_data(player, &ray);
+	find_wall(player, specs, ray, &wall);
+	get_wall_data(player, ray, &wall);
+	return (wall);
+}
 
-	// get the distance the ray has to travel to go from one side to the other
-	deltaDistX = fabs(1 / rayDirX);
-    deltaDistY = fabs(1 / rayDirY);
-
-	// get distance from next side
-	// set direction the ray move inside the map
-	if (rayDirX < 0)
+void	get_ray_data(t_player player, t_ray *ray)
+{
+	if (ray->dir.y == 0)
+		ray->delta.x = 0;
+	else
 	{
-		stepX = -1;
-		sideDistX = (player.posX - mapX) * deltaDistX;
+		if (ray->dir.x == 0)
+			ray->delta.x = 1;
+		else
+			ray->delta.x = fabs(1 / ray->dir.x);
+	}
+	if (ray->dir.x == 0)
+		ray->delta.y = 0;
+	else
+	{
+		if (ray->dir.y == 0)
+			ray->delta.y = 1;
+		else
+			ray->delta.y = fabs(1 / ray->dir.y);
+	}
+	get_ray_step(player, ray);
+}
+
+void	get_ray_step(t_player player, t_ray *ray)
+{
+	if (ray->dir.x < 0)
+	{
+		ray->step.x = -1;
+		ray->side.x = (player.x_pos - ray->map.x) * ray->delta.x;
 	}
 	else
 	{
-		stepX = 1;
-		sideDistX = (mapX - player.posX + 1.0) * deltaDistX;
+		ray->step.x = 1;
+		ray->side.x = (ray->map.x - player.x_pos + 1.0) * ray->delta.x;
 	}
-	if (rayDirY < 0)
+	if (ray->dir.y < 0)
 	{
-		stepY = -1;
-		sideDistY = (player.posY - mapY) * deltaDistY;
+		ray->step.y = -1;
+		ray->side.y = (player.y_pos - ray->map.y) * ray->delta.y;
 	}
 	else
 	{
-		stepY = 1;
-		sideDistY = (mapY - player.posY + 1.0) * deltaDistY;
+		ray->step.y = 1;
+		ray->side.y = (ray->map.y - player.y_pos + 1.0) * ray->delta.y;
 	}
+}
+
+void	find_wall(t_player pl, t_map_specs specs, t_ray ray, t_wall *wall)
+{
+	int		hit;
 
 	hit = 0;
-	// move the ray forward until he hits a wall
 	while (!hit)
 	{
-		// if the next side is a x-side
-		if (sideDistX < sideDistY)
+		if (ray.side.x < ray.side.y)
 		{
-			sideDistX += deltaDistX;
-			mapX += stepX;
-			side = 0;
+			ray.side.x += ray.delta.x;
+			ray.map.x += ray.step.x;
+			wall->side = 0;
 		}
 		else
 		{
-			sideDistY += deltaDistY;
-			mapY += stepY;
-			side = 1;
+			ray.side.y += ray.delta.y;
+			ray.map.y += ray.step.y;
+			wall->side = 1;
 		}
-		// if this is the side of a wall
-		if (specs.map[mapY][mapX] == '1')
+		if (specs.map[ray.map.y][ray.map.x] == '1')
 			hit = 1;
 	}
-
-	// get wall distance from camera plane (not from the player position to avoid fisheye effect)
-	if (side == 0)
-		distWall = (mapX - player.posX + (1 - stepX) / 2) / rayDirX;
+	if (wall->side == 0)
+		wall->dist = (ray.map.x - pl.x_pos + (1 - ray.step.x) / 2) / ray.dir.x;
 	else
-		distWall = (mapY - player.posY + (1 - stepY) / 2) / rayDirY;
+		wall->dist = (ray.map.y - pl.y_pos + (1 - ray.step.y) / 2) / ray.dir.y;
+	wall->height = specs.height / wall->dist;
+}
 
-	if (side == 0)
+void	get_wall_data(t_player player, t_ray ray, t_wall *wall)
+{
+	if (wall->side == 0)
 	{
-		if (rayDirX < 0)
-			wall.side = 3;
+		if (ray.dir.x < 0)
+			wall->side = 3;
 		else
-			wall.side = 2;
-		wall.x = player.posY + distWall * rayDirY;
+			wall->side = 2;
+		wall->x = player.y_pos + wall->dist * ray.dir.y;
 	}
 	else
 	{
-		if (rayDirY < 0)
-			wall.side = 1;
+		if (ray.dir.y < 0)
+			wall->side = 1;
 		else
-			wall.side = 0;
-		wall.x = player.posX + distWall * rayDirX;
+			wall->side = 0;
+		wall->x = player.x_pos + wall->dist * ray.dir.x;
 	}
-	wall.x -= floor(wall.x);
-
-	wall.height = specs.height / distWall;
-	return (wall);
+	wall->x -= floor(wall->x);
 }

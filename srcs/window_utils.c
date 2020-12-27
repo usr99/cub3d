@@ -6,11 +6,10 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 19:11:29 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/23 21:44:51 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/26 19:31:48 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <X11/keysym.h>
 #include "../includes/window.h"
 
 void	get_player_info(t_window *window, t_map_specs specs)
@@ -28,92 +27,103 @@ void	get_player_info(t_window *window, t_map_specs specs)
 			if (ft_strchr("NSWE", specs.map[i][j]))
 			{
 				get_player_dir(&player, specs.map[i][j]);
-				player.posX = (double)j + 0.5;
-				player.posY = (double)i + 0.5;
+				player.x_pos = (double)j + 0.5;
+				player.y_pos = (double)i + 0.5;
 			}
 			j++;
 		}
 		i++;
 	}
-	if (player.dirX)
-		player.planeY = 0.66;
-	else if (player.dirY)
-		player.planeX = 0.66;
+	if (player.x_dir)
+		player.y_plane = 0.66;
+	else if (player.y_dir)
+		player.x_plane = 0.66;
 	window->player = player;
 }
 
 void	get_player_dir(t_player *player, char c)
 {
-	player->dirX = 0;
-	player->dirY = 0;
+	player->x_dir = 0;
+	player->y_dir = 0;
 	if (c == 'N')
-		player->dirY = -1.0;
+		player->y_dir = -1.0;
 	else if (c == 'S')
-		player->dirY = 1.0;
+		player->y_dir = 1.0;
 	else if (c == 'W')
-		player->dirX = -1.0;
+		player->x_dir = -1.0;
 	else if (c == 'E')
-		player->dirX = 1.0;
+		player->x_dir = 1.0;
 }
 
-int	handle_event(int keycode, t_window *window)
+void	save_bmp(t_data world, t_map_specs specs)
 {
-	double	tmp_dirX = window->player.dirX;
-	double	tmp_planeX = window->player.planeX;
+	int	i;
+	int	fd;
+	int	line;
+	int	pixel;
 
-	if (keycode == XK_Up)
-		check_wall(window, 1);
-	else if (keycode == XK_Down)
-		check_wall(window, -1);
-	else if (keycode == XK_Left)
+	fd = open("./save.bmp", O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+	if (fd == -1)
+		exit(EXIT_FAILURE);
+	put_bmp_header(fd, specs.width * specs.height * 3, 3779, specs);
+	i = 0;
+	line = specs.height - 1;
+	while (line >= 0)
 	{
-		window->player.dirX = window->player.dirX * cos(-M_PI / 16) - window->player.dirY * sin(-M_PI / 16);
-		window->player.dirY = tmp_dirX * sin(-M_PI / 16) + window->player.dirY * cos(-M_PI / 16);
-		window->player.planeX = window->player.planeX * cos(-M_PI / 16) - window->player.planeY * sin(-M_PI / 16);
-		window->player.planeY = tmp_planeX * sin(-M_PI / 16) + window->player.planeY * cos(-M_PI / 16);
+		pixel = i + line * world.size_line / 4;
+		pixel = world.addr[pixel];
+		write(fd, &pixel, 3);
+		i++;
+		if (i == specs.width)
+		{
+			i = 0;
+			line--;
+		}
 	}
-	else if (keycode == XK_Right)
-	{
-		window->player.dirX = window->player.dirX * cos(M_PI / 16) - window->player.dirY * sin(M_PI / 16);
-		window->player.dirY = tmp_dirX * sin(M_PI / 16) + window->player.dirY * cos(M_PI / 16);
-		window->player.planeX = window->player.planeX * cos(M_PI / 16) - window->player.planeY * sin(M_PI / 16);
-		window->player.planeY = tmp_planeX * sin(M_PI / 16) + window->player.planeY * cos(M_PI / 16);
-	}
-	else if (keycode == XK_Escape)
-		exit(EXIT_SUCCESS);
-	
-	display_window(window);
-	return (0);
+	write(fd, "\0\0\0", (specs.width * specs.height * 3 + 54) % 4);
+	close(fd);
 }
 
-void	check_wall(t_window *window, int direction)
+void	put_bmp_header(int fd, int image_sz, int ppm, t_map_specs map)
 {
-	double	x;
-	double	y;
-	double	distX;
-	double	distY;
+	int	file_sz;
 
-	x = window->player.posX;
-	y = window->player.posY;
+	file_sz = 54 + map.width * map.height * 3;
+	file_sz += file_sz % 4;
+	write(fd, "BM", 2);
+	write(fd, &file_sz, 4);
+	write(fd, "\0\0\0\0", 4);
+	ft_putchar_fd(54, fd);
+	write(fd, "\0\0\0", 3);
+	ft_putchar_fd(40, fd);
+	write(fd, "\0\0\0", 3);
+	write(fd, &map.width, 4);
+	write(fd, &map.height, 4);
+	ft_putchar_fd(1, fd);
+	ft_putchar_fd(0, fd);
+	ft_putchar_fd(24, fd);
+	write(fd, "\0\0\0\0\0", 5);
+	write(fd, &image_sz, 4);
+	write(fd, &ppm, 4);
+	write(fd, &ppm, 4);
+	write(fd, "\0\0\0\0\0\0\0\0", 8);
+}
 
-	x += window->player.dirX * 0.25 * direction;
-	y += window->player.dirY * 0.25 * direction;
+void	free_window(t_window window, int exit_code)
+{
+	int	i;
 
-	if (window->player.dirX < 0)
-		distX = (window->player.posX - (int)x) * fabs(1 / window->player.dirX);
-	else
-		distX = ((int)x - window->player.posX + 1.0) * fabs(1 / window->player.dirX);
-	if (window->player.dirY < 0)
-		distY = (window->player.posY - (int)y) * fabs(1 / window->player.dirY);
-	else
-		distY = ((int)y - window->player.posY + 1.0) * fabs(1 / window->player.dirY);
-
-	if (window->specs.map[(int)y][(int)x] == '1')
+	i = 4;
+	while (i--)
 	{
-		x = window->player.posX + distX * window->player.dirX;
-		y = window->player.posY + distY * window->player.dirX;
+		free(window.specs.texture[i]);
+		mlx_destroy_image(window.mlx, window.tex[i].img);
 	}
-	
-	window->player.posX = x;
-	window->player.posY = y;
+	ft_free_map(window.specs.map);
+	ft_free_map(window.specs.sprite);
+	free(window.depth_walls);
+	mlx_destroy_image(window.mlx, window.world.img);
+	mlx_destroy_window(window.mlx, window.win);
+	mlx_destroy_display(window.mlx);
+	exit(exit_code);
 }

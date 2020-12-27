@@ -6,19 +6,17 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 17:42:06 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/24 13:27:12 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/26 23:38:10 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WINDOW_H
 # define WINDOW_H
 
-# define SIZE_TEX 256
-
 # include "cub3d.h"
 # include "raycasting.h"
 
-typedef struct	s_img
+typedef struct	s_data
 {
 	void			*img;
 	unsigned int	*addr;
@@ -27,28 +25,34 @@ typedef struct	s_img
 	int				endian;
 	int				width;
 	int				height;
-}				t_img;
+}				t_data;
 
 typedef struct	s_window
 {
 	void		*mlx;
 	void		*win;
 	t_map_specs	specs;
-	t_img		tex[5];
-	t_img		world;
+	t_data		tex[5];
+	t_data		world;
 	t_player	player;
-
+	double		*depth_walls;
 }				t_window;
 
 void			create_window(t_map_specs specs);
+void			check_window_size(void *mlx, t_map_specs *specs);
 void			create_texture(t_window *window, t_map_specs specs);
 int				display_window(t_window *window);
 void			draw_line(t_window window, int x, t_wall wall);
-void			save_bmp(t_img world, t_map_specs specs);
 
 void			get_player_info(t_window *window, t_map_specs specs);
 void			get_player_dir(t_player *player, char c);
+void			save_bmp(t_data world, t_map_specs specs);
+void			put_bmp_header(int fd, int image_sz, int ppm, t_map_specs map);
+void			free_window(t_window window, int exit_code);
+
 int				handle_event(int keycode, t_window *window);
-void			check_wall(t_window *window, int direction);
+void			move_camera(t_window *window, int direction, char key);
+void			rotate_camera(double *x, double *y, int direction, int rad);
+int				exit_cub3d(t_window *win);
 
 #endif
