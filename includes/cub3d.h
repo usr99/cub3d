@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:05:44 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/27 00:38:35 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/27 18:24:58 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct	s_vector
 
 typedef struct	s_point
 {
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 }				t_point;
 
 typedef struct	s_map_specs

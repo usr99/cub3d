@@ -6,64 +6,11 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 16:00:25 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/27 01:18:56 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/27 20:18:24 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sprite.h"
-
-t_vector	*get_sprite_coordinates(char **map)
-{
-	t_vector	*sprite;
-	int			nb_sprites;
-	int			i;
-	int			j;
-
-	i = 0;
-	nb_sprites = 0;
-	sprite = NULL;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == '2')
-			{
-				nb_sprites++;
-				sprite = get_sprite(sprite, nb_sprites);
-				sprite[nb_sprites - 1].x = j + 0.5;
-				sprite[nb_sprites - 1].y = i + 0.5;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (sprite);
-}
-
-t_vector	*get_sprite(t_vector *sprite, int nb_sprites)
-{
-	t_vector	*tmp;
-	int			i;
-
-	i = 0;
-	tmp = sprite;
-	sprite = (t_vector *)ft_calloc(nb_sprites + 1, sizeof(t_vector));
-	if (!sprite)
-		exit(EXIT_FAILURE);
-	if (tmp)
-	{
-		while (i < nb_sprites - 1)
-		{
-			sprite[i] = tmp[i];
-			i++;
-		}
-		free(tmp);
-	}
-	sprite[nb_sprites].x = -1;
-	sprite[nb_sprites].y = -1;
-	return (sprite);
-}
 
 void		draw_sprite(t_window window)
 {
@@ -73,6 +20,7 @@ void		draw_sprite(t_window window)
 	t_sprite	spr;
 
 	i = 0;
+	sort_sprites(window.player, window.specs.sprite);
 	depth = window.depth_walls;
 	while (window.specs.sprite[i].x != -1)
 	{
@@ -89,6 +37,36 @@ void		draw_sprite(t_window window)
 				}
 			}
 			stripe++;
+		}
+		i++;
+	}
+}
+
+void		sort_sprites(t_player player, t_vector *sprite)
+{
+	t_vector	tmp;
+	double		dist1;
+	double		dist2;
+	int			i;
+	int			j;
+
+	i = 0;
+	while (sprite[i].x != -1)
+	{
+		j = 0;
+		while (sprite[j + 1].x != -1)
+		{
+			dist1 = pow(player.x_pos - sprite[j].x, 2);
+			dist1 += pow(player.y_pos - sprite[j].y, 2);
+			dist2 = pow(player.x_pos - sprite[j + 1].x, 2);
+			dist2 += pow(player.y_pos - sprite[j + 1].y, 2);
+			if (dist1 < dist2)
+			{
+				tmp = sprite[j];
+				sprite[j] = sprite[j + 1];
+				sprite[j + 1] = tmp;
+			}
+			j++;
 		}
 		i++;
 	}
@@ -135,7 +113,7 @@ void		draw_stripe(t_window window, t_sprite spr, int stripe)
 	while (y < spr.draw_end.y)
 	{
 		color = window.tex[4].addr[(int)tex_y * window.tex[4].width + tex_x];
-		if (color != 0x00282828 && y >= 0 && y < window.specs.height)
+		if (color != 0x00FF00FF && y >= 0 && y < window.specs.height)
 			window.world.addr[y * window.specs.width + stripe] = color;
 		tex_y += (double)window.tex[4].height / (double)spr.size.y;
 		if ((int)tex_y >= window.tex[4].height)
