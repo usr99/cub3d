@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 19:11:29 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/26 19:31:48 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/27 16:05:00 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	get_player_info(t_window *window, t_map_specs specs)
 		i++;
 	}
 	if (player.x_dir)
-		player.y_plane = 0.66;
+		player.y_plane = 0.66 * player.x_dir;
 	else if (player.y_dir)
-		player.x_plane = 0.66;
+		player.x_plane = 0.66 * player.y_dir * -1;
 	window->player = player;
 }
 

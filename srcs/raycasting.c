@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:46:35 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/26 18:44:45 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/27 16:01:30 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_wall	raycast(t_player player, t_map_specs specs, int x)
 	double	camera;
 	t_ray	ray;
 	t_wall	wall;
+
 
 	camera = 2 * x / (double)specs.width - 1;
 	ray.dir.x = player.x_dir + player.x_plane * camera;
