@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 19:11:29 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/27 17:21:35 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/28 18:15:00 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void	free_window(t_window window, int exit_code)
 		mlx_destroy_image(window.mlx, window.tex[i].img);
 	}
 	ft_free_map(window.specs.map);
-	ft_free_map(window.specs.sprite);
 	free(window.depth_walls);
 	mlx_destroy_image(window.mlx, window.world.img);
 	mlx_destroy_window(window.mlx, window.win);
