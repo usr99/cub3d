@@ -6,12 +6,11 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/27 22:35:11 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/30 18:05:22 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/window.h"
-#include "../includes/sprite.h"
 
 void	create_window(t_map_specs specs)
 {
@@ -20,19 +19,21 @@ void	create_window(t_map_specs specs)
 	if (!(win.mlx = mlx_init()))
 		exit(EXIT_FAILURE);
 	check_window_size(win.mlx, &specs);
-	win.win = mlx_new_window(win.mlx, specs.width, specs.height, "CUB3D");
-	win.world.img = mlx_new_image(win.mlx, specs.width, specs.height);
 	win.specs = specs;
+	create_texture(&win, specs);
+	get_player_info(&win, specs);
+	win.world.img = mlx_new_image(win.mlx, specs.width, specs.height);
 	win.depth_walls = (double *)malloc(win.specs.width * sizeof(double));
-	if (!win.win || !win.world.img || !win.depth_walls)
+	if (!win.world.img || !win.depth_walls)
 		exit(EXIT_FAILURE);
 	win.world.addr = (unsigned int *)mlx_get_data_addr(win.world.img,
 		&win.world.bpp, &win.world.size_line, &win.world.endian);
-	create_texture(&win, specs);
-	get_player_info(&win, specs);
-	display_window(&win);
 	if (specs.save)
-		save_bmp(win.world, specs);
+		save_bmp(&win);
+	win.win = mlx_new_window(win.mlx, specs.width, specs.height, "CUB3D");
+	if (!win.win)
+		exit(EXIT_FAILURE);
+	display_window(&win);
 	mlx_do_key_autorepeaton(win.mlx);
 	mlx_expose_hook(win.win, &display_window, &win);
 	mlx_hook(win.win, 33, 0L, &exit_cub3d, &win);
@@ -45,11 +46,14 @@ void	check_window_size(void *mlx, t_map_specs *specs)
 	int	screen_width;
 	int	screen_height;
 
-	mlx_get_screen_size(mlx, &screen_width, &screen_height);
-	if (specs->width > screen_width)
-		specs->width = screen_width;
-	if (specs->height > screen_height)
-		specs->height = screen_height;
+	if (!specs->save)
+	{
+		mlx_get_screen_size(mlx, &screen_width, &screen_height);
+		if (specs->width > screen_width)
+			specs->width = screen_width;
+		if (specs->height > screen_height)
+			specs->height = screen_height;
+	}
 }
 
 void	create_texture(t_window *window, t_map_specs specs)
@@ -58,6 +62,7 @@ void	create_texture(t_window *window, t_map_specs specs)
 	int		i;
 
 	i = 0;
+	window->win = NULL;
 	while (i < 5)
 	{
 		tx.img = mlx_xpm_file_to_image(window->mlx, specs.texture[i],
@@ -73,26 +78,7 @@ void	create_texture(t_window *window, t_map_specs specs)
 
 int		display_window(t_window *win)
 {
-	t_wall	wall;
-	int		x;
-	int		i;
-	int		nb_pixels;
-
-	i = -1;
-	nb_pixels = win->specs.width * win->specs.height;
-	while (i++ < nb_pixels / 2)
-		win->world.addr[i] = win->specs.c_color;
-	while (i++ < nb_pixels)
-		win->world.addr[i] = win->specs.f_color;
-	x = 0;
-	while (x < win->specs.width)
-	{
-		wall = raycast(win->player, win->specs, x);
-		win->depth_walls[x] = wall.dist;
-		draw_line(*win, x, wall);
-		x++;
-	}
-	draw_sprite(*win);
+	create_world_image(win);
 	mlx_put_image_to_window(win->mlx, win->win, win->world.img, 0, 0);
 	return (0);
 }

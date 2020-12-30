@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/26 23:37:38 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/28 21:45:27 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		get_texture(char *line, t_map_specs *m_specs)
 	if (!texture)
 	{
 		free(line);
+		free_specs(m_specs);
 		exit(EXIT_FAILURE);
 	}
 	return (set_spec(line, m_specs, texture));

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:05:44 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/27 18:24:58 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/28 21:41:26 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct	s_map_specs
 void			init_struct_specs(t_map_specs *specs);
 void			is_specs_completed(t_map_specs *specs, char *line);
 void			show_error(void *ptr, void (*del)(void *), char *message);
+
 int				check_comma(char *line, int *i);
+void			free_specs(t_map_specs *specs);
 
 #endif

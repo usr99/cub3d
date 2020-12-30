@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 16:00:25 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/27 20:18:24 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/28 21:35:36 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void		draw_sprite(t_window window)
 	double		*depth;
 	t_sprite	spr;
 
-	i = 0;
+	i = -1;
 	sort_sprites(window.player, window.specs.sprite);
 	depth = window.depth_walls;
-	while (window.specs.sprite[i].x != -1)
+	while (window.specs.sprite[++i].x != -1)
 	{
 		spr = get_sprite_data(window.player, window.specs.sprite[i],
 			window.specs);
@@ -38,7 +38,6 @@ void		draw_sprite(t_window window)
 			}
 			stripe++;
 		}
-		i++;
 	}
 }
 
@@ -50,8 +49,8 @@ void		sort_sprites(t_player player, t_vector *sprite)
 	int			i;
 	int			j;
 
-	i = 0;
-	while (sprite[i].x != -1)
+	i = -1;
+	while (sprite[++i].x != -1)
 	{
 		j = 0;
 		while (sprite[j + 1].x != -1)
@@ -68,7 +67,6 @@ void		sort_sprites(t_player player, t_vector *sprite)
 			}
 			j++;
 		}
-		i++;
 	}
 }
 

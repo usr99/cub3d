@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 17:42:06 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/26 23:38:10 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/30 20:04:06 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,16 @@ void			draw_line(t_window window, int x, t_wall wall);
 
 void			get_player_info(t_window *window, t_map_specs specs);
 void			get_player_dir(t_player *player, char c);
-void			save_bmp(t_data world, t_map_specs specs);
+void			create_world_image(t_window *win);
+void			save_bmp(t_window *w);
 void			put_bmp_header(int fd, int image_sz, int ppm, t_map_specs map);
-void			free_window(t_window window, int exit_code);
 
 int				handle_event(int keycode, t_window *window);
 void			move_camera(t_window *window, int direction, char key);
 void			rotate_camera(double *x, double *y, int direction, int rad);
+
+void			free_window(t_window window, int exit_code);
 int				exit_cub3d(t_window *win);
+void			love_norm(int fd, int *i, int *line, int height);
 
 #endif

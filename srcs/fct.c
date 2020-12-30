@@ -1,0 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fct.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/28 21:07:42 by mamartin          #+#    #+#             */
+/*   Updated: 2020/12/30 20:03:58 by mamartin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/window.h"
+
+int		check_comma(char *line, int *i)
+{
+	while (ft_isdigit(line[*i]))
+		(*i)++;
+	while (line[*i] == ' ')
+		(*i)++;
+	if (line[*i] != ',')
+		return (-1);
+	(*i)++;
+	return (0);
+}
+
+void	free_specs(t_map_specs *specs)
+{
+	int i;
+
+	i = 0;
+	while (i < 5)
+	{
+		if (specs->texture[i])
+			free(specs->texture[i]);
+		i++;
+	}
+	if (specs->map)
+		ft_free_map(specs->map);
+	if (specs->sprite)
+		free(specs->sprite);
+}
+
+void	free_window(t_window window, int exit_code)
+{
+	int i;
+
+	i = 5;
+	while (i--)
+		mlx_destroy_image(window.mlx, window.tex[i].img);
+	free_specs(&window.specs);
+	free(window.depth_walls);
+	mlx_destroy_image(window.mlx, window.world.img);
+	if (window.win)
+		mlx_destroy_window(window.mlx, window.win);
+	mlx_destroy_display(window.mlx);
+	free(window.mlx);
+	exit(exit_code);
+}
+
+int		exit_cub3d(t_window *win)
+{
+	free_window(*win, EXIT_SUCCESS);
+	return (0);
+}
+
+void	love_norm(int fd, int *i, int *line, int height)
+{
+	if (fd == -1)
+		exit(EXIT_FAILURE);
+	*i = 0;
+	*line = height - 1;
+}

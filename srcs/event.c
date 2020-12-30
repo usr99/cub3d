@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 16:04:51 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/26 19:22:33 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/28 21:51:11 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int		handle_event(int keycode, t_window *window)
 		move_camera(window, 1, 'd');
 	else if (keycode == XK_Left)
 	{
-		rotate_camera(&window->player.x_dir, &window->player.y_dir, -1, 16);
-		rotate_camera(&window->player.x_plane, &window->player.y_plane, -1, 16);
+		rotate_camera(&window->player.x_dir, &window->player.y_dir, -1, 25);
+		rotate_camera(&window->player.x_plane, &window->player.y_plane, -1, 25);
 	}
 	else if (keycode == XK_Right)
 	{
-		rotate_camera(&window->player.x_dir, &window->player.y_dir, 1, 16);
-		rotate_camera(&window->player.x_plane, &window->player.y_plane, 1, 16);
+		rotate_camera(&window->player.x_dir, &window->player.y_dir, 1, 25);
+		rotate_camera(&window->player.x_plane, &window->player.y_plane, 1, 25);
 	}
 	else if (keycode == XK_Escape)
 		free_window(*window, EXIT_SUCCESS);
@@ -53,8 +53,8 @@ void	move_camera(t_window *window, int direction, char key)
 		rotate_camera(&dir_x, &dir_y, direction, 2);
 	if (key == 'a')
 		direction = 1;
-	x += dir_x * 0.25 * direction;
-	y += dir_y * 0.25 * direction;
+	x += dir_x * 0.20 * direction;
+	y += dir_y * 0.20 * direction;
 	if (window->specs.map[(int)y][(int)x] != '1')
 	{
 		x += dir_x * 0.01 * direction;
@@ -76,10 +76,4 @@ void	rotate_camera(double *x, double *y, int direction, int rad)
 	rot = (M_PI * direction) / rad;
 	*x = *x * cos(rot) - *y * sin(rot);
 	*y = tmp * sin(rot) + *y * cos(rot);
-}
-
-int		exit_cub3d(t_window *win)
-{
-	free_window(*win, EXIT_SUCCESS);
-	return (0);
 }

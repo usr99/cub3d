@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/24 14:33:18 by mamartin         ###   ########.fr       */
+/*   Updated: 2020/12/28 21:09:54 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,4 @@ void	show_error(void *ptr, void (*del)(void *), char *message)
 	if (ptr)
 		(*del)(ptr);
 	exit(EXIT_FAILURE);
-}
-
-int		check_comma(char *line, int *i)
-{
-	while (ft_isdigit(line[*i]))
-		(*i)++;
-	while (line[*i] == ' ')
-		(*i)++;
-	if (line[*i] != ',')
-		return (-1);
-	(*i)++;
-	return (0);
 }
