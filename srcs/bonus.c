@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 16:38:49 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/02 02:20:41 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/02 03:22:08 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,45 @@ void	set_minimap_color(t_window win, t_vector pos, int x, int y)
 		win.minimap.addr[x + y * win.minimap.width] = 0x00C79A20;
 	else if (player.x == (int)pos.x && player.y == (int)pos.y)
 		win.minimap.addr[x + y * win.minimap.width] = 0x00C79A20;
-	else if (win.specs.map[(int)pos.y] && pos.x < ft_strlen(win.specs.map[(int)pos.y]))
+	else if (win.specs.map[(int)pos.y])
 	{
-		if (win.specs.map[(int)pos.y][(int)pos.x] == '1')
-			win.minimap.addr[x + y * win.minimap.width] = 0x00303030;
+		if (pos.x < ft_strlen(win.specs.map[(int)pos.y]))
+		{
+			if (ft_strchr(" 1", win.specs.map[(int)pos.y][(int)pos.x]))
+				win.minimap.addr[x + y * win.minimap.width] = 0x00303030;
+			else
+				win.minimap.addr[x + y * win.minimap.width] = 0x00505050;
+		}
 		else
-			win.minimap.addr[x + y * win.minimap.width] = 0x00505050;
+			win.minimap.addr[x + y * win.minimap.width] = 0x00303030;
 	}
-	else
-		win.minimap.addr[x + y * win.minimap.width] = 0x00505050;
+}
+
+void	draw_life_bar(t_window win)
+{
+	t_point	size;
+	t_point	draw_start;
+	t_point	draw_end;
+	t_point	pixel;
+
+	size.x = win.specs.width / 4;
+	size.y = win.specs.height / 20;
+	draw_start.x = win.specs.width / 2 - size.x / 2;
+	draw_start.y = win.specs.height - size.y * 1.5;
+	draw_end.x = draw_start.x + size.x;
+	draw_end.y = draw_start.y + size.y;
+	pixel.y = draw_start.y - 1;
+	while (++pixel.y <= draw_end.y)
+	{
+		pixel.x = draw_start.x - 1;
+		while (++pixel.x <= draw_end.x)
+		{
+			if (pixel.x < draw_start.x + 5 || pixel.x > draw_end.x - 5)
+				win.world.addr[pixel.x + pixel.y * win.specs.width] = 4210752;
+			else if (pixel.y < draw_start.y + 5 || pixel.y > draw_end.y - 5)
+				win.world.addr[pixel.x + pixel.y * win.specs.width] = 4210752;
+			else
+				win.world.addr[pixel.x + pixel.y * win.specs.width] = 0x1bc900;
+		}
+	}
 }

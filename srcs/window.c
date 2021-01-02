@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/01 18:00:23 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/02 03:19:28 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int		display_window(t_window *win)
 	mlx_put_image_to_window(win->mlx, win->win, win->world.img, 0, 0);
 	draw_minimap(win);
 	mlx_put_image_to_window(win->mlx, win->win, win->minimap.img, 10, 10);
+	mlx_string_put(win->mlx, win->win, win->specs.width / 2 - 20,
+		win->specs.height * 0.96, 0x00000000, "100/100");
 	return (0);
 }
 
