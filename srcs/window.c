@@ -6,11 +6,12 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/30 18:05:22 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/01 18:00:23 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/window.h"
+#include "../includes/bonus.h"
 
 void	create_window(t_map_specs specs)
 {
@@ -20,7 +21,7 @@ void	create_window(t_map_specs specs)
 		exit(EXIT_FAILURE);
 	check_window_size(win.mlx, &specs);
 	win.specs = specs;
-	create_texture(&win, specs);
+	create_images(&win, specs);
 	get_player_info(&win, specs);
 	win.world.img = mlx_new_image(win.mlx, specs.width, specs.height);
 	win.depth_walls = (double *)malloc(win.specs.width * sizeof(double));
@@ -56,13 +57,21 @@ void	check_window_size(void *mlx, t_map_specs *specs)
 	}
 }
 
-void	create_texture(t_window *window, t_map_specs specs)
+void	create_images(t_window *window, t_map_specs specs)
 {
 	t_data	tx;
 	int		i;
 
 	i = 0;
 	window->win = NULL;
+	tx.width = specs.width / 6;
+	tx.height = tx.width;
+	tx.img = mlx_new_image(window->mlx, tx.width, tx.height);
+	if (tx.img == NULL)
+		exit(EXIT_FAILURE);
+	tx.addr = (unsigned int *)mlx_get_data_addr(tx.img, &tx.bpp,
+		&tx.size_line, &tx.endian);
+	window->minimap = tx;
 	while (i < 5)
 	{
 		tx.img = mlx_xpm_file_to_image(window->mlx, specs.texture[i],
@@ -80,6 +89,8 @@ int		display_window(t_window *win)
 {
 	create_world_image(win);
 	mlx_put_image_to_window(win->mlx, win->win, win->world.img, 0, 0);
+	draw_minimap(win);
+	mlx_put_image_to_window(win->mlx, win->win, win->minimap.img, 10, 10);
 	return (0);
 }
 

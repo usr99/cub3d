@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 19:11:29 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/30 20:05:29 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/01 18:34:50 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void	create_world_image(t_window *win)
 		draw_line(*win, x, wall);
 		x++;
 	}
-	draw_sprite(*win);
+	if (win->specs.sprite)
+		draw_sprite(*win);
 }
 
 void	save_bmp(t_window *w)

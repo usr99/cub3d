@@ -2,7 +2,7 @@ NAME	= cub3d
 LIBFT	= libft/libft.a
 MLX		= minilibx/libmlx.a
 SRC		= main.c parse_cub.c read_map.c sprite.c sprite_utils.c window.c window_utils.c \
-			raycasting.c event.c fct.c
+			raycasting.c event.c fct.c bonus.c
 OBJ_DIR	= objs/
 OBJ		= ${addprefix ${OBJ_DIR}, ${SRC:.c=.o}}
 CC		= gcc

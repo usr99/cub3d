@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 17:42:06 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/30 20:04:06 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/01 17:30:05 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ typedef struct	s_window
 	t_map_specs	specs;
 	t_data		tex[5];
 	t_data		world;
+	t_data		minimap;
 	t_player	player;
 	double		*depth_walls;
 }				t_window;
 
 void			create_window(t_map_specs specs);
 void			check_window_size(void *mlx, t_map_specs *specs);
-void			create_texture(t_window *window, t_map_specs specs);
+void			create_images(t_window *window, t_map_specs specs);
 int				display_window(t_window *window);
 void			draw_line(t_window window, int x, t_wall wall);
 
