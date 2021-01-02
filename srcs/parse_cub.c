@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2020/12/28 21:45:27 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/02 20:58:22 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	parse_map(int fd, t_map_specs *specs)
 		if (ret == -1)
 			show_error(NULL, NULL, "Can't read file");
 		ret = -1;
-		if (ft_strchr("NSWE", line[0]))
+		if (ft_strchr("NSWEFC", line[0]))
 			ret = get_texture(line, specs);
-		else if (ft_strchr("FC", line[0]))
-			ret = get_color(line, specs);
+		//else if (ft_strchr("FC", line[0]))
+		//	ret = get_color(line, specs);
 		else if (line[0] == 'R')
 			ret = get_res(line, specs);
 		else if (is_map_description(line))
@@ -37,7 +37,7 @@ void	parse_map(int fd, t_map_specs *specs)
 	}
 	if (ret == 0)
 		show_error(NULL, NULL, "Map description missing/incorrect");
-	is_specs_completed(specs, line);
+	//is_specs_completed(specs, line);
 	specs->map = get_map(line, fd);
 	specs->sprite = get_sprite_coordinates(specs->map);
 }
@@ -48,7 +48,8 @@ int		get_texture(char *line, t_map_specs *m_specs)
 	int		i;
 
 	i = 2;
-	if (line[0] == 'S' && line[1] != 'O')
+	//if (line[0] == 'S' && line[1] != 'O')
+	if (ft_strchr("SFC", line[0]) && line[1] != 'O')
 		i = 1;
 	while (line[i] == ' ')
 		i++;
@@ -104,9 +105,11 @@ int		set_spec(char *line, t_map_specs *m_specs, void *value)
 	else if (ft_strnstr(line, "S ", 2) && !m_specs->texture[4])
 		m_specs->texture[4] = (char *)value;
 	else if (ft_strnstr(line, "F ", 2) && !m_specs->f_color)
-		m_specs->f_color = *((int*)value);
+		m_specs->texture[5] = (char *)value;
+		//m_specs->f_color = *((int*)value);
 	else if (ft_strnstr(line, "C ", 2) && !m_specs->c_color)
-		m_specs->c_color = *((int*)value);
+		m_specs->texture[6] = (char *)value;
+		//m_specs->c_color = *((int*)value);
 	else
 	{
 		if (!ft_strchr("FC", line[0]))

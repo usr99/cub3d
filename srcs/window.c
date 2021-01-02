@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/02 03:19:28 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/02 21:00:31 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	create_images(t_window *window, t_map_specs specs)
 	tx.addr = (unsigned int *)mlx_get_data_addr(tx.img, &tx.bpp,
 		&tx.size_line, &tx.endian);
 	window->minimap = tx;
-	while (i < 5)
+	while (i < 7)
 	{
 		tx.img = mlx_xpm_file_to_image(window->mlx, specs.texture[i],
 			&tx.width, &tx.height);

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:05:44 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/01 17:29:11 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/02 20:55:28 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct	s_map_specs
 {
 	int			width;
 	int			height;
-	char		*texture[5];
+	char		*texture[7];
 	int			f_color;
 	int			c_color;
 	char		**map;

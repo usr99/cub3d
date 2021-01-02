@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 17:42:06 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/01 17:30:05 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/02 20:55:31 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct	s_window
 	void		*mlx;
 	void		*win;
 	t_map_specs	specs;
-	t_data		tex[5];
+	t_data		tex[7];
 	t_data		world;
 	t_data		minimap;
 	t_player	player;

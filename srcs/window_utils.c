@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 19:11:29 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/02 02:44:04 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/02 19:36:47 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	create_world_image(t_window *win)
 		win->world.addr[i] = win->specs.c_color;
 	while (i++ < nb_pixels)
 		win->world.addr[i] = win->specs.f_color;
+	floor_cast(*win);
 	x = 0;
 	while (x < win->specs.width)
 	{
