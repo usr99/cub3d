@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/04 16:01:28 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/04 20:21:23 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,8 @@ void	create_images(t_window *window, t_map_specs specs)
 
 	i = 0;
 	window->win = NULL;
-	tx.width = specs.width / 6;
-	tx.height = tx.width;
-	tx.img = mlx_new_image(window->mlx, tx.width, tx.height);
-	if (tx.img == NULL)
-		exit(EXIT_FAILURE);
-	tx.addr = (unsigned int *)mlx_get_data_addr(tx.img, &tx.bpp,
-		&tx.size_line, &tx.endian);
-	window->minimap = tx;
+	window->minimap.x = specs.width / 6;
+	window->minimap.y = window->minimap.x;
 	while (i < 7)
 	{
 		tx.img = mlx_xpm_file_to_image(window->mlx, specs.texture[i],
@@ -89,8 +83,6 @@ int		display_window(t_window *win)
 {
 	create_world_image(win);
 	mlx_put_image_to_window(win->mlx, win->win, win->world.img, 0, 0);
-	draw_minimap(win);
-	mlx_put_image_to_window(win->mlx, win->win, win->minimap.img, 10, 10);
 	mlx_string_put(win->mlx, win->win, win->specs.width / 2 - 20,
 		win->specs.height * 0.96, 0x00000000, "100/100");
 	return (0);
@@ -110,7 +102,7 @@ void	draw_line(t_window window, int x, t_wall wall)
 	tex_x = wall.x * window.tex[wall.side].width;
 	step = (double)window.tex[wall.side].height / (double)wall.height;
 	line = step;
-	color = window.tex[wall.side].addr[tex_x];
+	color = shadow(window.tex[wall.side].addr[tex_x], window.depth_walls[x]);
 	while (wall.height--)
 	{
 		if (y >= 0 && y < window.specs.height)

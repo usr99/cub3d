@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/02 20:59:57 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/04 21:06:01 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	init_struct_specs(t_map_specs *specs)
 	specs->texture[2] = NULL;
 	specs->texture[3] = NULL;
 	specs->texture[4] = NULL;
-	specs->f_color = 0;
-	specs->c_color = 0;
+	specs->texture[5] = NULL;
+	specs->texture[6] = NULL;
 	specs->map = NULL;
 	specs->save = 0;
 }
@@ -66,9 +66,9 @@ void	is_specs_completed(t_map_specs *specs, char *line)
 		show_error(line, &free, "Missing element in .cub file");
 	if (specs->texture[4] == NULL)
 		show_error(line, &free, "Missing element in .cub file");
-	if (specs->f_color == 0)
+	if (specs->texture[5] == NULL)
 		show_error(line, &free, "Missing element in .cub file");
-	if (specs->c_color == 0)
+	if (specs->texture[6] == NULL)
 		show_error(line, &free, "Missing element in .cub file");
 }
 

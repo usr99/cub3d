@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 19:11:29 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/04 16:01:08 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/04 20:20:28 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,7 @@ void	create_world_image(t_window *win)
 {
 	t_wall	wall;
 	int		x;
-	int		i;
-	int		nb_pixels;
 
-	i = -1;
-	nb_pixels = win->specs.width * win->specs.height;
-	while (i++ < nb_pixels / 2)
-		win->world.addr[i] = win->specs.c_color;
-	while (i++ < nb_pixels)
-		win->world.addr[i] = win->specs.f_color;
 	floor_cast(*win);
 	x = 0;
 	while (x < win->specs.width)
@@ -83,6 +75,7 @@ void	create_world_image(t_window *win)
 	}
 	if (win->specs.sprite)
 		draw_sprite(*win);
+	draw_minimap(win);
 	draw_life_bar(*win);
 }
 

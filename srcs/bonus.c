@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 16:38:49 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/04 16:02:05 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/04 21:03:16 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,21 @@ void	draw_minimap(t_window *window)
 	int			x;
 	int			y;
 
-	x = 0;
-	y = 0;
+	x = 10;
+	y = 10;
 	pos.x = 0;
 	pos.y = 0;
 	get_map_size(window->specs.map, &step.x, &step.y);
-	step.x = step.x / window->minimap.width;
-	step.y = step.y / window->minimap.height;
-	while (y != window->minimap.height)
+	step.x = step.x / window->minimap.x;
+	step.y = step.y / window->minimap.y;
+	while (y != window->minimap.y + 10)
 	{
 		set_minimap_color(*window, pos, x, y);
 		pos.x += step.x;
 		x++;
-		if (x == window->minimap.width)
+		if (x >= window->minimap.x + 10)
 		{
-			x = 0;
+			x = 10;
 			y++;
 			pos.x = 0;
 			pos.y += step.y;
@@ -82,21 +82,21 @@ void	set_minimap_color(t_window win, t_vector pos, int x, int y)
 
 	player.x = (int)win.player.x_pos;
 	player.y = (int)win.player.y_pos;
-	if (!x || !y || x == win.minimap.width - 1 || y == win.minimap.height - 1)
-		win.minimap.addr[x + y * win.minimap.width] = 0x00C79A20;
+	if (x == 10 || y == 10 || x == win.minimap.x + 9 || y == win.minimap.y + 9)
+		win.world.addr[x + y * win.specs.width] = 0x00C79A20;
 	else if (player.x == (int)pos.x && player.y == (int)pos.y)
-		win.minimap.addr[x + y * win.minimap.width] = 0x00C79A20;
+		win.world.addr[x + y * win.specs.width] = 0x00C79A20;
 	else if (win.specs.map[(int)pos.y])
 	{
 		if (pos.x < ft_strlen(win.specs.map[(int)pos.y]))
 		{
 			if (ft_strchr(" 1", win.specs.map[(int)pos.y][(int)pos.x]))
-				win.minimap.addr[x + y * win.minimap.width] = 0x00303030;
+				win.world.addr[x + y * win.specs.width] = 0x00303030;
 			else
-				win.minimap.addr[x + y * win.minimap.width] = 0x00505050;
+				win.world.addr[x + y * win.specs.width] = 0x00505050;
 		}
 		else
-			win.minimap.addr[x + y * win.minimap.width] = 0x00303030;
+			win.world.addr[x + y * win.specs.width] = 0x00303030;
 	}
 }
 

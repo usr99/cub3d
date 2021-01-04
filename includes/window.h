@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 17:42:06 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/04 16:01:37 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/04 21:06:09 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef struct	s_window
 	t_map_specs	specs;
 	t_data		tex[7];
 	t_data		world;
-	t_data		minimap;
 	t_player	player;
 	double		*depth_walls;
+	t_point		minimap;
 }				t_window;
 
 void			create_window(t_map_specs specs);

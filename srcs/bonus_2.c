@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 17:12:26 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/03 15:29:00 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/04 20:10:40 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	draw_floor(t_window win, t_floor floor, int y, double dist)
 
 int		shadow(int color, double distance)
 {
-	double	intensity;
 	int		r;
 	int		g;
 	int		b;
@@ -77,13 +76,9 @@ int		shadow(int color, double distance)
 	r = (color >> 16) & 0xFF;
 	g = (color >> 8) & 0xFF;
 	b = color & 0xFF;
-	intensity = distance * 0.30;
-	if (intensity > 1)
-	{
-		r /= intensity;
-		g /= intensity;
-		b /= intensity;
-	}
+	r /= 1 + pow(distance, 2) * 0.05;
+	g /= 1 + pow(distance, 2) * 0.05;
+	b /= 1 + pow(distance, 2) * 0.05;
 	if (r < 0)
 		r = 0;
 	else if (r > 255)
