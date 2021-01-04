@@ -6,11 +6,12 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/25 16:00:25 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/01 18:34:13 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/03 15:14:29 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sprite.h"
+#include "../includes/bonus.h"
 
 void		draw_sprite(t_window window)
 {
@@ -112,7 +113,10 @@ void		draw_stripe(t_window window, t_sprite spr, int stripe)
 	{
 		color = window.tex[4].addr[(int)tex_y * window.tex[4].width + tex_x];
 		if (color != 0x00FF00FF && y >= 0 && y < window.specs.height)
+		{
+			color = shadow(color, spr.transform.y);
 			window.world.addr[y * window.specs.width + stripe] = color;
+		}
 		tex_y += (double)window.tex[4].height / (double)spr.size.y;
 		if ((int)tex_y >= window.tex[4].height)
 			tex_y = window.tex[4].height - 1;

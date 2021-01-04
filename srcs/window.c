@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/02 21:00:31 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/04 16:01:28 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ void	draw_line(t_window window, int x, t_wall wall)
 		line += step;
 		if (line < window.tex[wall.side].height)
 		{
-			color = window.tex[wall.side].addr[tex_x + (int)line
-				* (window.tex[wall.side].size_line / 4)];
+			color = shadow(window.tex[wall.side].addr[tex_x + (int)line *
+				(window.tex[wall.side].size_line / 4)], window.depth_walls[x]);
 		}
 		y++;
 	}

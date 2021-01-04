@@ -6,7 +6,7 @@ SRC		= main.c parse_cub.c read_map.c sprite.c sprite_utils.c window.c window_uti
 OBJ_DIR	= objs/
 OBJ		= ${addprefix ${OBJ_DIR}, ${SRC:.c=.o}}
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra #-Werror
 
 ${OBJ_DIR}%.o:	srcs/%.c
 			${CC} -g ${CFLAGS} -I includes/ -c $< -o $@

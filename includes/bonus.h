@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 16:35:59 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/02 23:46:36 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/03 15:09:08 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void			set_minimap_color(t_window win, t_vector pos, int x, int y);
 void			draw_life_bar(t_window win);
 
 void			floor_cast(t_window win);
-void			draw_floor(t_window win, t_floor floor, int y);
+void			draw_floor(t_window win, t_floor floor, int y, double dist);
+int				shadow(int color, double distance);
 
 #endif

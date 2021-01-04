@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 17:12:26 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/02 23:47:43 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/03 15:29:00 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,20 @@ void	floor_cast(t_window win)
 		floor.step.y = row_dist * (ray1.y - ray0.y) / win.specs.width;
 		floor.x = win.player.x_pos + row_dist * ray0.x;
 		floor.y = win.player.y_pos + row_dist * ray0.y;
-		draw_floor(win, floor, y);
+		draw_floor(win, floor, y, row_dist);
 		y++;
 	}
 }
 
-void	draw_floor(t_window win, t_floor floor, int y)
+void	draw_floor(t_window win, t_floor floor, int y, double dist)
 {
 	t_vector	cell;
 	t_point		tx;
 	int			color;
 	int			x;
 
-	x = 0;
-	while (x < win.specs.width)
+	x = -1;
+	while (++x < win.specs.width)
 	{
 		cell.x = (int)floor.x;
 		cell.y = (int)floor.y;
@@ -57,11 +57,45 @@ void	draw_floor(t_window win, t_floor floor, int y)
 		if (tx.x >= 0 && tx.y >= 0)
 		{
 			color = win.tex[5].addr[tx.x + tx.y * win.tex[5].width];
+			color = shadow(color, dist);
 			win.world.addr[x + y * win.specs.width] = color;
 			color = win.tex[6].addr[tx.x + tx.y * win.tex[6].width];
+			color = shadow(color, dist);
 			win.world.addr[x + (win.specs.height - y - 1) * win.specs.width] =
 				color;
 		}
-		x++;
 	}
+}
+
+int		shadow(int color, double distance)
+{
+	double	intensity;
+	int		r;
+	int		g;
+	int		b;
+
+	r = (color >> 16) & 0xFF;
+	g = (color >> 8) & 0xFF;
+	b = color & 0xFF;
+	intensity = distance * 0.30;
+	if (intensity > 1)
+	{
+		r /= intensity;
+		g /= intensity;
+		b /= intensity;
+	}
+	if (r < 0)
+		r = 0;
+	else if (r > 255)
+		r = 255;
+	if (g < 0)
+		g = 0;
+	else if (g > 255)
+		g = 255;
+	if (b < 0)
+		b = 0;
+	else if (b > 255)
+		b = 255;
+	color = r << 16 | g << 8 | b;
+	return (color);
 }
