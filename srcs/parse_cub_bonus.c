@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/05 00:28:34 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/04 21:04:23 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ void	parse_map(int fd, t_map_specs *specs)
 		if (ret == -1)
 			show_error(NULL, NULL, "Can't read file");
 		ret = -1;
-		if (ft_strchr("NSWE", line[0]))
+		if (ft_strchr("NSWEFC", line[0]))
 			ret = get_texture(line, specs);
-		else if (ft_strchr("FC", line[0]))
-			ret = get_color(line, specs);
 		else if (line[0] == 'R')
 			ret = get_res(line, specs);
 		else if (is_map_description(line))
@@ -62,35 +60,6 @@ int		get_texture(char *line, t_map_specs *m_specs)
 	return (set_spec(line, m_specs, texture));
 }
 
-int		get_color(char *line, t_map_specs *m_specs)
-{
-	int i;
-	int color;
-	int bit_shift;
-	int byte;
-
-	i = 1;
-	color = 0;
-	bit_shift = 16;
-	while (line[i] && bit_shift != -8)
-	{
-		while (line[i] == ' ')
-			i++;
-		if (!ft_isdigit(line[i]))
-			show_error(line, &free, "Bad rgb value for color");
-		byte = ft_atoi(line + i);
-		if (byte < 0 || byte > 255)
-			show_error(line, &free, "Bad rgb value for color");
-		color = (color | byte << bit_shift);
-		bit_shift -= 8;
-		if (check_comma(line, &i) == -1 && bit_shift != -8)
-			show_error(line, &free, "Bad rgb value for color");
-	}
-	if (line[i] != '\0' || (line[i] == '\0' && bit_shift != -8))
-		show_error(line, &free, "Bad rgb value for color");
-	return (set_spec(line, m_specs, &color));
-}
-
 int		set_spec(char *line, t_map_specs *m_specs, void *value)
 {
 	if (ft_strnstr(line, "NO ", 3) && !m_specs->texture[0])
@@ -103,14 +72,13 @@ int		set_spec(char *line, t_map_specs *m_specs, void *value)
 		m_specs->texture[3] = (char *)value;
 	else if (ft_strnstr(line, "S ", 2) && !m_specs->texture[4])
 		m_specs->texture[4] = (char *)value;
-	else if (ft_strnstr(line, "F ", 2) && !m_specs->f_color)
-		m_specs->f_color = *(int*)value;
-	else if (ft_strnstr(line, "C ", 2) && !m_specs->c_color)
-		m_specs->c_color = *(int*)value;
+	else if (ft_strnstr(line, "F ", 2) && !m_specs->texture[5])
+		m_specs->texture[5] = (char *)value;
+	else if (ft_strnstr(line, "C ", 2) && !m_specs->texture[6])
+		m_specs->texture[6] = (char *)value;
 	else
 	{
-		if (!ft_strchr("FC", line[0]))
-			free(value);
+		free(value);
 		return (-1);
 	}
 	return (0);

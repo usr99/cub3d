@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:05:44 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/04 21:13:43 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/05 00:26:11 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct	s_map_specs
 	char		*texture[7];
 	t_vector	*sprite;
 	char		**map;
+	int			f_color;
+	int			c_color;
 	int			save;
 }				t_map_specs;
 

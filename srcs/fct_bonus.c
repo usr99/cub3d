@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fct.c                                              :+:      :+:    :+:   */
+/*   fct_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:07:42 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/05 00:40:45 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/05 00:37:06 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_specs(t_map_specs *specs)
 	int i;
 
 	i = 0;
-	while (i < 5)
+	while (i < 7)
 	{
 		if (specs->texture[i])
 			free(specs->texture[i]);
@@ -45,7 +45,7 @@ void	free_window(t_window window, int exit_code)
 {
 	int i;
 
-	i = 5;
+	i = 7;
 	while (i--)
 		mlx_destroy_image(window.mlx, window.tex[i].img);
 	free_specs(&window.specs);

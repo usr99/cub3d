@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 16:04:51 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/05 00:35:50 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/02 01:33:47 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	move_camera(t_window *window, int direction, char key)
 		direction = 1;
 	x += dir_x * 0.20 * direction;
 	y += dir_y * 0.20 * direction;
-	if (window->specs.map[(int)y][(int)x] != '1')
+	if (check_collision(window->specs.map[(int)y][(int)x], x, y))
 	{
 		x += dir_x * 0.01 * direction;
 		y += dir_y * 0.01 * direction;
-		if (window->specs.map[(int)y][(int)x] != '1')
+		if (check_collision(window->specs.map[(int)y][(int)x], x, y))
 		{
 			window->player.x_pos = x - dir_x * 0.01 * direction;
 			window->player.y_pos = y - dir_y * 0.01 * direction;
