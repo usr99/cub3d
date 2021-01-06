@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/05 00:33:18 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/06 14:31:19 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ void	create_images(t_window *window, t_map_specs specs)
 		tx.img = mlx_xpm_file_to_image(window->mlx, specs.texture[i],
 			&tx.width, &tx.height);
 		if (tx.img == NULL)
-			show_error(NULL, NULL, "Bad path for texture\n");
+		{
+			ft_putstr_fd("Error\nInfo : Bad path for texture\n", 2);
+			free_window(*window, EXIT_FAILURE);
+		}
 		tx.addr = (unsigned int *)mlx_get_data_addr(tx.img, &tx.bpp,
 			&tx.size_line, &tx.endian);
 		window->tex[i] = tx;

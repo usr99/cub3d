@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/05 00:29:36 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/06 13:44:16 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		main(int ac, char **av)
 	int			fd;
 
 	if (ac == 1)
-		show_error(NULL, NULL, "Too few arguments");
+		show_error(NULL, NULL, "Too few arguments", NULL);
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 	{
 		perror("Error\nInfo ");
@@ -44,6 +44,7 @@ void	init_struct_specs(t_map_specs *specs)
 	specs->texture[2] = NULL;
 	specs->texture[3] = NULL;
 	specs->texture[4] = NULL;
+	specs->sprite = NULL;
 	specs->f_color = 0;
 	specs->c_color = 0;
 	specs->map = NULL;
@@ -53,26 +54,27 @@ void	init_struct_specs(t_map_specs *specs)
 void	is_specs_completed(t_map_specs *specs, char *line)
 {
 	if (specs->width == 0)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 	if (specs->height == 0)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 	if (specs->texture[0] == NULL)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 	if (specs->texture[1] == NULL)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 	if (specs->texture[2] == NULL)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 	if (specs->texture[3] == NULL)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 	if (specs->texture[4] == NULL)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 	if (specs->f_color == 0)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 	if (specs->c_color == 0)
-		show_error(line, &free, "Missing element in .cub file");
+		show_error(line, &free, "Missing element in .cub file", specs);
 }
 
-void	show_error(void *ptr, void (*del)(void *), char *message)
+void	show_error(void *ptr, void (*del)(void *), char *message,
+	t_map_specs *specs)
 {
 	if (message)
 	{
@@ -82,5 +84,7 @@ void	show_error(void *ptr, void (*del)(void *), char *message)
 	}
 	if (ptr)
 		(*del)(ptr);
+	if (specs)
+		free_specs(specs);
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/05 00:28:34 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/06 14:24:00 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	parse_map(int fd, t_map_specs *specs)
 	while ((ret = get_next_line(fd, &line)))
 	{
 		if (ret == -1)
-			show_error(NULL, NULL, "Can't read file");
+			show_error(NULL, NULL, "Can't read file", specs);
 		ret = -1;
 		if (ft_strchr("NSWE", line[0]))
 			ret = get_texture(line, specs);
@@ -32,13 +32,13 @@ void	parse_map(int fd, t_map_specs *specs)
 		else if (is_map_description(line))
 			break ;
 		if (ret == -1 && ft_strlen(line) > 0)
-			show_error(line, &free, "Invalid .cub file");
+			show_error(line, &free, "Invalid .cub file", specs);
 		free(line);
 	}
 	if (ret == 0)
-		show_error(NULL, NULL, "Map description missing/incorrect");
+		show_error(NULL, NULL, "Map description missing/incorrect", specs);
 	is_specs_completed(specs, line);
-	specs->map = get_map(line, fd);
+	specs->map = get_map(line, fd, specs);
 	specs->sprite = get_sprite_coordinates(specs->map);
 }
 
@@ -77,17 +77,17 @@ int		get_color(char *line, t_map_specs *m_specs)
 		while (line[i] == ' ')
 			i++;
 		if (!ft_isdigit(line[i]))
-			show_error(line, &free, "Bad rgb value for color");
+			show_error(line, &free, "Bad rgb value for color", m_specs);
 		byte = ft_atoi(line + i);
 		if (byte < 0 || byte > 255)
-			show_error(line, &free, "Bad rgb value for color");
+			show_error(line, &free, "Bad rgb value for color", m_specs);
 		color = (color | byte << bit_shift);
 		bit_shift -= 8;
 		if (check_comma(line, &i) == -1 && bit_shift != -8)
-			show_error(line, &free, "Bad rgb value for color");
+			show_error(line, &free, "Bad rgb value for color", m_specs);
 	}
 	if (line[i] != '\0' || (line[i] == '\0' && bit_shift != -8))
-		show_error(line, &free, "Bad rgb value for color");
+		show_error(line, &free, "Bad rgb value for color", m_specs);
 	return (set_spec(line, m_specs, &color));
 }
 
@@ -122,11 +122,11 @@ int		get_res(char *line, t_map_specs *m_specs)
 
 	i = 1;
 	if (m_specs->width || m_specs->height)
-		show_error(line, &free, "Resolution is set twice");
+		show_error(line, &free, "Resolution is set twice", m_specs);
 	while (line[i] == ' ')
 		i++;
 	if (i == 1)
-		show_error(line, &free, "Bad value for resolution");
+		show_error(line, &free, "Bad value for resolution", m_specs);
 	m_specs->width = ft_atoi(line + i);
 	while (ft_isdigit(line[i]))
 		i++;
@@ -136,6 +136,6 @@ int		get_res(char *line, t_map_specs *m_specs)
 	while (ft_isdigit(line[i]))
 		i++;
 	if (m_specs->width < 1 || m_specs->height < 1 || line[i] != '\0')
-		show_error(line, &free, "Bad value for resolution");
+		show_error(line, &free, "Bad value for resolution", m_specs);
 	return (0);
 }
