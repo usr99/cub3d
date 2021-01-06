@@ -8,8 +8,8 @@ WE tex/wall_3.xpm
 EA   ./tex/wall_4.xpm
 
 S       tex/sprite.xpm
-F tex/floor2.xpm
-C          tex/ceiling.xpm
+F 124   ,148 ,161
+C         101   ,  115,   140
 
         1111111111111111111111111
         1000000002110000000000021

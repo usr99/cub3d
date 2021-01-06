@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 14:11:02 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/06 15:00:43 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/06 17:16:07 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,17 @@ void	pathfinding(char **map, int i, int j, t_map_specs *specs)
 	}
 	map[i][j] = 'X';
 	if (i != 0 && j < (int)ft_strlen(map[i - 1]))
+	{
 		pathfinding(map, i - 1, j, specs);
+		pathfinding(map, i - 1, j - 1, specs);
+		pathfinding(map, i - 1, j + 1, specs);
+	}
 	if (j < (int)ft_strlen(map[i + 1]))
+	{
 		pathfinding(map, i + 1, j, specs);
+		pathfinding(map, i + 1, j - 1, specs);
+		pathfinding(map, i + 1, j + 1, specs);
+	}
 	if (j > 0)
 		pathfinding(map, i, j - 1, specs);
 	pathfinding(map, i, j + 1, specs);
