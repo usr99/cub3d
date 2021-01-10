@@ -1,13 +1,13 @@
 R    900         550
 
-NO          tex/wall_1.xpm
+NO          files/wall_1.xpm
 
-SO ./tex/wall_2.xpm
-WE tex/wall_3.xpm
+SO ./files/wall_2.xpm
+WE files/wall_3.xpm
 
-EA   ./tex/wall_4.xpm
+EA   ./files/wall_4.xpm
 
-S       tex/sprite.xpm
+S       fies/sprite.xpm
 F 124   ,148 ,161
 C         101   ,  115,   140
 

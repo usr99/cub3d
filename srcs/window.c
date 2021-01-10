@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/06 18:34:05 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/10 18:35:21 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	create_window(t_map_specs specs)
 		exit(EXIT_FAILURE);
 	check_window_size(win.mlx, &specs);
 	win.specs = specs;
-	create_images(&win, specs);
 	get_player_info(&win, specs);
 	win.world.img = mlx_new_image(win.mlx, specs.width, specs.height);
 	win.depth_walls = (double *)malloc(win.specs.width * sizeof(double));
@@ -29,6 +28,7 @@ void	create_window(t_map_specs specs)
 		exit(EXIT_FAILURE);
 	win.world.addr = (unsigned int *)mlx_get_data_addr(win.world.img,
 		&win.world.bpp, &win.world.size_line, &win.world.endian);
+	create_images(&win, specs);
 	if (specs.save)
 		save_bmp(&win);
 	win.win = mlx_new_window(win.mlx, specs.width, specs.height, "CUB3D");
@@ -68,11 +68,14 @@ void	create_images(t_window *window, t_map_specs specs)
 	window->minimap.y = window->minimap.x;
 	while (i < 5)
 	{
+		window->tex[i].img = NULL;
 		tx.img = mlx_xpm_file_to_image(window->mlx, specs.texture[i],
 			&tx.width, &tx.height);
 		if (tx.img == NULL)
 		{
-			ft_putstr_fd("Error\nInfo : Bad path for texture\n", 2);
+			ft_putstr_fd("Error\nInfo : Bad path for texture ", 2);
+			ft_putnbr_fd(i + 1, 2);
+			ft_putchar_fd('\n', 2);
 			free_window(*window, EXIT_FAILURE);
 		}
 		tx.addr = (unsigned int *)mlx_get_data_addr(tx.img, &tx.bpp,

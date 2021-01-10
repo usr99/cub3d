@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:07:42 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/06 18:39:18 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/10 18:38:18 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,12 @@ void	free_window(t_window window, int exit_code)
 {
 	int i;
 
-	i = 7;
-	while (i--)
+	i = 0;
+	while (window.tex[i].img && i < 7)
+	{
 		mlx_destroy_image(window.mlx, window.tex[i].img);
+		i++;
+	}
 	free_specs(&window.specs);
 	free(window.depth_walls);
 	mlx_destroy_image(window.mlx, window.world.img);
