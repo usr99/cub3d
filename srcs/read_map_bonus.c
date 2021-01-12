@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 14:11:02 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/06 17:16:18 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/12 21:52:04 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	check_map_closed(char **map, int x, int y, t_map_specs *specs)
 			show_error(map, &ft_free_map, NULL, specs);
 		}
 	}
+	specs->map = map;
 	pathfinding(cpy_map, y, x, specs);
 	ft_free_map(cpy_map);
 }
@@ -115,10 +116,7 @@ void	pathfinding(char **map, int i, int j, t_map_specs *specs)
 	if (map[i][j] == '1' || map[i][j] == 'X')
 		return ;
 	if (map[i][j] == ' ' || map[i][j] == '\0' || !map[i + 1] || !j || !i)
-	{
-		ft_free_map(map);
 		show_error(map, &ft_free_map, "Map not closed", specs);
-	}
 	map[i][j] = 'X';
 	if (i != 0 && j < (int)ft_strlen(map[i - 1]))
 	{

@@ -1,4 +1,4 @@
-NAME		= Cub3D
+NAME		= cub3D
 LIBFT		= libft/libft.a
 MLX			= minilibx/libmlx.a
 INC			= ./includes

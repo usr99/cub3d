@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 00:56:47 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/06 13:46:49 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/12 21:40:50 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@
 int		main(int ac, char **av)
 {
 	t_map_specs	specs;
+	char		*format;
 	int			fd;
 
 	if (ac == 1)
 		show_error(NULL, NULL, "Too few arguments", NULL);
+	format = ft_strrchr(av[1], '.');
+	if (!format || ft_strncmp(format, ".cub", 4) || ft_strlen(format) != 4)
+		show_error(NULL, NULL, "File is not a .cub file", NULL);
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 	{
 		perror("Error\nInfo ");
