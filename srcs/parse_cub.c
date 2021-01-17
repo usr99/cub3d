@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 20:19:31 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/06 14:24:00 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/01/17 12:46:15 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ int		set_spec(char *line, t_map_specs *m_specs, void *value)
 		m_specs->texture[3] = (char *)value;
 	else if (ft_strnstr(line, "S ", 2) && !m_specs->texture[4])
 		m_specs->texture[4] = (char *)value;
-	else if (ft_strnstr(line, "F ", 2) && !m_specs->f_color)
+	else if (ft_strnstr(line, "F ", 2) && m_specs->f_color == -1)
 		m_specs->f_color = *(int*)value;
-	else if (ft_strnstr(line, "C ", 2) && !m_specs->c_color)
+	else if (ft_strnstr(line, "C ", 2) && m_specs->c_color == -1)
 		m_specs->c_color = *(int*)value;
 	else
 	{
