@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 23:05:44 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/06 14:14:48 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:51:02 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include "../libft/libft.h"
-# include "../minilibx/mlx.h"
-# include "../minilibx/mlx_int.h"
+# include <mlx.h>
 
 typedef struct	s_vector
 {

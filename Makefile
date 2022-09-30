@@ -1,6 +1,5 @@
 NAME		= cub3D
 LIBFT		= libft/libft.a
-MLX			= minilibx/libmlx.a
 INC			= ./includes
 SRC			= main.c parse_cub.c read_map.c sprite.c sprite_utils.c window.c window_utils.c \
 				raycasting.c event.c fct.c
@@ -18,8 +17,8 @@ ${OBJ_DIR}%.o:	srcs/%.c
 ${OBJ_DIR}%.o:	bonus/%.c
 			${CC} -g ${CFLAGS} -I ${INC} -c $< -o $@
 
-${NAME}:	${OBJ_DIR} ${OBJ} ${LIBFT} ${MLX} ${INC}
-			${CC} ${CFLAGS} -o $@ ${OBJ} ${LIBFT} ${MLX} -lXext -lX11 -lm
+${NAME}:	${OBJ_DIR} ${OBJ} ${LIBFT} ${INC}
+			${CC} ${CFLAGS} -o $@ ${OBJ} ${LIBFT} -lmlx -framework OpenGL -framework AppKit
 
 ${OBJ_DIR}:
 			mkdir -p ${OBJ_DIR}
@@ -27,13 +26,10 @@ ${OBJ_DIR}:
 ${LIBFT}:	
 			${MAKE} bonus -C libft
 
-${MLX}:
-			${MAKE} -C minilibx
-
 all:		${NAME}
 
 bonus:		${OBJ_DIR} ${OBJ_BONUS} ${LIBFT} ${MLX} ${INC}
-			${CC} ${CFLAGS} -o ${NAME} ${OBJ_BONUS} ${LIBFT} ${MLX} -lXext -lX11 -lm
+			${CC} ${CFLAGS} -o $@ ${OBJ_BONUS} ${LIBFT} -lmlx -framework OpenGL -framework AppKit
 
 clean:
 			rm -rf ${OBJ_DIR}

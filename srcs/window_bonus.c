@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:02:50 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/10 18:36:58 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/09/30 00:09:25 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	create_window(t_map_specs specs)
 
 	if (!(win.mlx = mlx_init()))
 		exit(EXIT_FAILURE);
-	check_window_size(win.mlx, &specs);
+	check_window_size(&specs);
 	win.specs = specs;
 	get_player_info(&win, specs);
 	win.world.img = mlx_new_image(win.mlx, specs.width, specs.height);
@@ -42,14 +42,13 @@ void	create_window(t_map_specs specs)
 	mlx_loop(win.mlx);
 }
 
-void	check_window_size(void *mlx, t_map_specs *specs)
+void	check_window_size(t_map_specs *specs)
 {
-	int	screen_width;
-	int	screen_height;
+	static int	screen_width = 5120;
+	static int	screen_height = 2880;
 
 	if (!specs->save)
 	{
-		mlx_get_screen_size(mlx, &screen_width, &screen_height);
 		if (specs->width > screen_width)
 			specs->width = screen_width;
 		if (specs->height > screen_height)

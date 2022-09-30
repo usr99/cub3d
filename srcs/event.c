@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/24 16:04:51 by mamartin          #+#    #+#             */
-/*   Updated: 2021/01/05 00:35:50 by mamartin         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:54:36 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 
 int		handle_event(int keycode, t_window *window)
 {
-	if (keycode == 'w')
-		move_camera(window, 1, 'w');
-	else if (keycode == 's')
-		move_camera(window, -1, 's');
-	else if (keycode == 'a')
-		move_camera(window, -1, 'a');
-	else if (keycode == 'd')
-		move_camera(window, 1, 'd');
-	else if (keycode == XK_Left)
+	if (keycode == 13)
+		move_camera(window, 1, 13);
+	else if (keycode == 1)
+		move_camera(window, -1, 1);
+	else if (keycode == 0)
+		move_camera(window, -1, 0);
+	else if (keycode == 0)
+		move_camera(window, 1, 2);
+	else if (keycode == 123)
 	{
 		rotate_camera(&window->player.x_dir, &window->player.y_dir, -1, 25);
 		rotate_camera(&window->player.x_plane, &window->player.y_plane, -1, 25);
 	}
-	else if (keycode == XK_Right)
+	else if (keycode == 124)
 	{
 		rotate_camera(&window->player.x_dir, &window->player.y_dir, 1, 25);
 		rotate_camera(&window->player.x_plane, &window->player.y_plane, 1, 25);
 	}
-	else if (keycode == XK_Escape)
+	else if (keycode == 53)
 		free_window(*window, EXIT_SUCCESS);
 	display_window(window);
 	return (0);
